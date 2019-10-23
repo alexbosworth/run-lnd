@@ -484,7 +484,7 @@ autopilot.maxchannels=15
 autopilot.minchansize=10000000
 
 # Set the confirmations required
-autopilot.minconfs=1
+autopilot.minconfs=2
 
 [Bitcoin]
 # Turn on Bitcoin mode
