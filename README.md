@@ -549,7 +549,7 @@ nohup /home/ubuntu/go/bin/lnd > /dev/null 2> /home/ubuntu/.lnd/err.log &
 Setup LND
 
 ```shell
-openssl rand -base64 14 > ~/.lnd/wallet_password
+openssl rand -hex 21 > ~/.lnd/wallet_password
 
 cat ~/.lnd/wallet_password
 # Copy this password
