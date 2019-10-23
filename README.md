@@ -543,9 +543,16 @@ tor.v3=1
 nohup /home/ubuntu/go/bin/lnd > /dev/null 2> /home/ubuntu/.lnd/err.log &
 ```
 
+Setup LND
+
 ```shell
-emacs ~/.lnd/wallet_password
-# Enter your wallet password, save and exit
+openssl rand -base64 14 > ~/.lnd/wallet_password
+
+cat ~/.lnd/wallet_password
+# Copy this password
+
+lncli create
+# Follow prompts, use the wallet password as the initial password and set no cipher seed password
 ```
 
 Edit crontab to run on startup and setup easy link of logs:
