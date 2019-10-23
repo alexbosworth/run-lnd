@@ -64,7 +64,7 @@ fs.file-max=512000
 sudo reboot
 ```
 
-If using an attached disk that has not yet been initialized set it up as 
+If using an attached disk for the full Blockchain and it has not yet been initialized set it up as 
 something like `/blockchain`
 
 ```shell
