@@ -558,8 +558,13 @@ lncli create
 Edit crontab to run on startup and setup easy link of logs:
 
 ```shell
+# Link if Mainnet
 ln -s ~/.lnd/logs/bitcoin/mainnet/lnd.log ~/lnd-mainnet.log
 
+# Link if Testnet
+ln -s ~/.lnd/logs/bitcoin/testnet/lnd.log ~/lnd-testnet.log
+
+# Setup crontab to start and unlock LND on boot
 crontab -e
 ```
 
