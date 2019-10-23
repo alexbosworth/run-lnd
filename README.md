@@ -472,7 +472,7 @@ autopilot.active=1
 autopilot.allocation=1.0
 
 # Set the channel confs to wait for channel opens
-autopilot.conftarget=3
+autopilot.conftarget=2
 
 # Use external scoring mode for autopilot
 autopilot.heuristic=externalscore:1.0
@@ -491,7 +491,7 @@ autopilot.minconfs=2
 bitcoin.active=1
 
 # Set the channel confs to wait for channels
-bitcoin.defaultchanconfs=3
+bitcoin.defaultchanconfs=2
 
 # Forward fee rate in parts per million
 bitcoin.feerate=1000
