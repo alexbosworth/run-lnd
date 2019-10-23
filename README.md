@@ -570,6 +570,7 @@ crontab -e
 [Bitcoin Core auth script]: https://github.com/bitcoin/bitcoin/blob/master/share/rpcauth/rpcauth.py
 [Bitcoin Core data directory]: https://en.bitcoin.it/wiki/Data_directory
 [Download Bitcoin Core]: https://bitcoincore.org/en/download/
+[Install LND]: https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md
 [Install Tor]: https://2019.www.torproject.org/docs/installguide.html.en
 [LND]: https://github.com/lightningnetwork/lnd
 [Node.js installation]: https://nodejs.org/en/download/package-manager/
