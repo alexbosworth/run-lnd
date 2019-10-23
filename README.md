@@ -394,7 +394,8 @@ npm config set prefix '~/.npm-global'
 # Update path
 emacs ~/.profile
 
-# Add line to the end: PATH="$HOME/.npm-global/bin:$PATH"
+# Add line to the end
+PATH="$HOME/.npm-global/bin:$PATH"
 
 # Save and exit, update shell:
 . ~/.profile
