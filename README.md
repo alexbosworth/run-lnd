@@ -508,6 +508,9 @@ bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332
 bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333
 
 [neutrino]
+# Setup a peer if on testnet
+neutrino.addpeer=btcd-testnet.lightning.computer
+
 # Set fee data URL, change to btc-fee-estimates.json if mainnet
 neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json
 
