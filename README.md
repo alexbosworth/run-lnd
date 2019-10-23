@@ -42,6 +42,9 @@ Install your favorite editor, like emacs:
 
 ```shell
 sudo apt update && sudo apt upgrade -y && sudo apt install -y emacs
+
+# change owner of emacs config
+sudo chown -R ubuntu ~/.emacs.d
 ```
 
 If running on a public instance, increase the file descriptors limit:
