@@ -1,2 +1,556 @@
-# run-lnd
-Rundown on running LND
+# Run LND
+
+Notes on setting up and running [LND] instances.
+
+Example commands are given from the perspective of running Ubuntu
+
+## System Requirements
+
+- EC2: Micro Instance or better
+- IP: A clear-net routing node should get a fairly static IP
+- OS: Ubuntu is pretty common, any OS
+- PORT: 9735 will be the standard P2P port, 10009 the standard gRPC port
+
+- *Note: EC2 will only give you 5 IPs per region*
+- *Note: Only self-access is allowed on EC2 PEMs, change privs after downloading*
+
+### Disk:
+
+If using Bitcoin Core on mainnet, setup a disk that can host the entire 
+Blockchain and transaction index: 500 GB.
+
+If using Neutrino lite-mode a separate disk is not necessary.
+
+## Initial Setup
+
+Install your favorite editor, like emacs:
+
+```shell
+sudo apt update && sudo apt upgrade -y && sudo apt install -y emacs
+```
+
+If running on a public instance, increase the file descriptors limit:
+
+```shell
+sudo emacs /etc/sysctl.conf
+```
+
+Add line:
+
+```
+fs.file-max=512000
+```
+
+```shell
+# Save and reboot
+sudo reboot
+```
+
+If using an attached disk that has not yet been initialized set it up as 
+something like `/blockchain`
+
+```shell
+
+# List storage
+lsblk
+# You will get the volume name appearing as something like nvme1n1
+
+# Check on the storage to make sure it is empty
+sudo file -s /dev/nvme1n1
+# should show "/dev/nvme1n1: data" meaning empty
+
+# Format the storage as ext4. It may take a second
+sudo mkfs -t ext4 /dev/nvme1n1
+
+# Make a directory for the volume and mount it
+sudo mkdir /blockchain
+sudo mount /dev/nvme1n1 /blockchain/
+cd /blockchain
+
+# Double check you have enough space
+df -h .
+# should show available space in the volume
+
+# Automatically mount the partition, but first backup the existing config
+sudo cp /etc/fstab /etc/fstab.bak
+sudo emacs /etc/fstab
+
+# Create entry in the file:
+/dev/nvme1n1 /blockchain ext4 defaults,nofail 0 0
+
+# Save and exit, then test:
+sudo mount -a
+# Should show no errors
+
+# Take ownership of the directory:
+sudo chown `whoami` /blockchain
+```
+
+Setup a local firewall:
+
+```shell
+sudo ufw logging on
+sudo ufw enable
+# PRESS Y
+sudo ufw status
+sudo ufw allow OpenSSH
+sudo ufw allow 9735
+sudo ufw allow 10009
+```
+
+Setup network flood protection:
+
+```shell
+sudo iptables -N syn_flood
+sudo iptables -A INPUT -p tcp --syn -j syn_flood
+sudo iptables -A syn_flood -m limit --limit 1/s --limit-burst 3 -j RETURN
+sudo iptables -A syn_flood -j DROP
+sudo iptables -A INPUT -p icmp -m limit --limit 1/s --limit-burst 1 -j ACCEPT
+sudo iptables -A INPUT -p icmp -m limit --limit 1/s --limit-burst 1 -j LOG --log-prefix PING-DROP:
+sudo iptables -A INPUT -p icmp -j DROP
+sudo iptables -A OUTPUT -p icmp -j ACCEPT
+```
+
+## Access Control
+
+**On a remote instance, set it up to use hardware keys only to authenticate**
+
+You can setup your SSH keys by editing `~/.ssh/authorized_keys`.
+
+Use a `#` comment above the keys to comment on what they are
+
+## Using Tor
+
+If you want to run your node behind Tor? [Install Tor].
+
+Instructions:
+
+```shell
+sudo apt-get update && sudo apt install -y apt-transport-https
+
+# Edit package sources for installation
+sudo emacs /etc/apt/sources.list.d/tor.list
+
+deb https://deb.torproject.org/torproject.org bionic main
+deb-src https://deb.torproject.org/torproject.org bionic main
+
+# Get the GPG key for Tor and add it to GPG
+sudo curl https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc | sudo gpg --import
+sudo gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
+
+# Install the Tor package
+sudo apt update && sudo apt install -y tor deb.torproject.org-keyring
+
+# Add a user for Tor
+sudo usermod -a -G debian-tor ubuntu
+```
+
+Then configure Tor:
+
+```shell
+# Edit the Tor configuration
+sudo emacs /etc/tor/torrc
+```
+
+```
+# Add these lines at the top of the file:
+
+ControlPort 9051
+CookieAuthentication 1
+CookieAuthFileGroupReadable 1
+Log notice stdout
+SOCKSPort 9050
+```
+
+```shell
+# Restart the Tor service
+sudo service tor restart
+```
+
+## Install Bitcoin Core
+
+Using Bitcoin Core as a chain backend? [Download Bitcoin Core].
+
+Installation:
+
+```shell
+# Add repository and install
+sudo add-apt-repository ppa:bitcoin/bitcoin -y
+sudo apt update && sudo apt install -y bitcoind
+```
+
+Setup directories on the Blockchain storage volume, and also create the 
+[Bitcoin Core data directory] in order to setup the configuration file:
+
+```shell
+mkdir /blockchain/.bitcoin && mkdir /blockchain/.bitcoin/data && mkdir ~/.bitcoin
+```
+
+Edit the configuration file. If you have an existing Bitcoin Core, use 
+`getbestblockhash` to get the current chain tip hash.
+
+```shell
+emacs ~/.bitcoin/bitcoin.conf
+```
+
+Download and use the [Bitcoin Core RPC auth script] to generate credentials:
+
+```shell
+wget https://raw.githubusercontent.com/bitcoin/bitcoin/master/share/rpcauth/rpcauth.py
+python ./rpcauth.py bitcoinrpc
+# This will output the authentication string to add to bitcoin.conf
+# Save the password, this will be used for LND configuration
+```
+
+Add this configuration:
+
+```ini
+# Set the best block hash here:
+assumevalid=
+
+# Run as a daemon mode without an interactive shell
+daemon=1
+
+# Set the data directory to the storage directory
+datadir=/blockchain/.bitcoin/data
+
+# Set the number of megabytes of RAM to use, set to like 50% of available memory
+dbcache=3000
+
+# Add visibility into mempool and RPC calls for potential LND debugging
+debug=mempool
+debug=rpc
+
+# Turn off the wallet, it won't be used
+disablewallet=1
+
+# Don't bother listening for peers
+listen=0
+
+# Constrain the mempool to the number of megabytes needed:
+maxmempool=100
+
+# Limit uploading to peers
+maxuploadtarget=1000
+
+# Turn off serving SPV nodes
+nopeerbloomfilters=1
+peerbloomfilters=0
+
+# Don't accept deprecated multi-sig style
+permitbaremultisig=0
+
+# Set the RPC auth to what was set above
+rpcauth=
+
+# Turn on the RPC server
+server=1
+
+# Set testnet if needed
+testnet=1
+
+# Turn on transaction lookup index
+txindex=1
+
+# Turn on ZMQ publishing
+zmqpubrawblock=tcp://127.0.0.1:28332
+zmqpubrawtx=tcp://127.0.0.1:28333
+```
+
+Using Tor? Add additional lines:
+
+```ini
+# Some mainnet peers
+addnode=gyn2vguc35viks2b.onion
+addnode=kvd44sw7skb5folw.onion
+addnode=nkf5e6b7pl4jfd4a.onion
+addnode=yu7sezmixhmyljn4.onion
+addnode=3ffk7iumtx3cegbi.onion
+addnode=3nmbbakinewlgdln.onion
+addnode=4j77gihpokxu2kj4.onion
+addnode=546esc6botbjfbxb.onion
+addnode=5at7sq5nm76xijkd.onion
+addnode=77mx2jsxaoyesz2p.onion
+addnode=7g7j54btiaxhtsiy.onion
+addnode=a6obdgzn67l7exu3.onion
+addnode=ab64h7olpl7qpxci.onion
+addnode=am2a4rahltfuxz6l.onion
+addnode=azuxls4ihrr2mep7.onion
+addnode=bitcoin7bi4op7wb.onion
+addnode=bitcoinostk4e4re.onion
+addnode=bk7yp6epnmcllq72.onion
+addnode=bmutjfrj5btseddb.onion
+addnode=ceeji4qpfs3ms3zc.onion
+addnode=clexmzqio7yhdao4.onion
+addnode=gb5ypqt63du3wfhn.onion
+addnode=h2vlpudzphzqxutd.onion
+
+# Only use Tor
+onlynet=onion
+
+# Connect to Tor proxy
+proxy=127.0.0.1:9050
+```
+
+Start Bitcoin Core:
+
+```shell
+bitcoind
+```
+
+Add Bitcoin Core to crontab:
+
+```shell
+crontab -e
+```
+
+Add entry:
+
+```
+# Start Bitcoin Core on boot
+@reboot bitcoind
+```
+
+Create an easy link to the debug log of Bitcoin Core:
+
+```shell
+# Mainnet:
+ln -s /blockchain/.bitcoin/data/debug.log ~/bitcoind-mainnet.log
+
+# Or Testnet:
+ln -s /blockchain/.bitcoin/data/testnet3/debug.log ~/bitcoind-testnet.log
+```
+
+## Install Go
+
+Check if Go is installed and what version it is:
+
+```shell
+go version
+# Should show Go version 1.13.3 or higher
+
+# If an out of date Go is already installed
+sudo rm -rf /usr/local/go
+
+# If installing Go for the first time
+sudo apt-get update && sudo apt-get -y upgrade
+
+# Download Go
+wget https://dl.google.com/go/go1.13.3.linux-amd64.tar.gz
+
+# Extract it
+sudo tar -xvf go1.13.3.linux-amd64.tar.gz
+
+# Install it and remove the download
+sudo mv go /usr/local && rm go1.13.3.linux-amd64.tar.gz
+
+# On a new install, make a directory for it
+mkdir ~/go
+
+# On a new install, setup the path to use the Go directory
+emacs ~/.profile
+
+# Place lines at the end of the file:
+GOPATH=$HOME/go
+PATH="$HOME/bin:$GOPATH/bin:$HOME/.local/bin:/usr/local/go/bin:$PATH"
+
+# Add an alias if running on Testnet
+alias lncli="lncli --network=testnet"
+
+# Save and exit, then run profile
+. ~/.profile
+```
+
+## Install Balance of Satoshis
+
+This will need a [Node.js installation] to run:
+
+```shell
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Avoid using sudo with NPM
+mkdir ~/.npm-global
+npm config set prefix '~/.npm-global'
+
+# Update path
+emacs ~/.profile
+
+# Add line to the end: PATH="$HOME/.npm-global/bin:$PATH"
+
+# Save and exit, update shell:
+. ~/.profile
+
+# Install balanceofsatoshis
+npm i -g balanceofsatoshis
+```
+
+## Install LND
+
+[Install LND] on the machine, then setup its configuration
+
+```shell
+# Get build tools
+sudo apt-get install -y build-essential
+
+# Clone the LND repo and install LND
+cd ~/
+git clone https://github.com/lightningnetwork/lnd.git
+cd lnd
+make && make install tags="autopilotrpc chainrpc invoicesrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc"
+mkdir ~/.lnd
+emacs ~/.lnd/lnd.conf
+```
+
+Set configuration for LND:
+
+```ini
+[Application Options]
+# Public network name
+alias=YOUR_ALIAS
+
+# Public hex color
+color=#000000
+
+# Log levels
+debuglevel=CNCT=debug,HSWC=debug
+
+# Public P2P IP
+externalip=INSTANCE_IP
+
+# Set the maximum amount of commit fees in a channel
+max-channel-fee-allocation=1.0
+
+# Set the max tiemout blocks of a payment
+max-cltv-expiry=5000
+
+# Pending channel limit
+maxpendingchannels=10
+
+# Min inbound channel limit
+minchansize=5000000
+
+# gRPC socket binding
+rpclisten=0.0.0.0:10009
+
+# Avoid slow startup time
+sync-freelist=1
+
+# Avoid high startup overhead
+stagger-initial-reconnect=1
+
+# TLS certificate IP
+tlsextraip=IP_ADDRESS
+
+# Allow disconnects
+unsafe-disconnect=1
+
+[autopilot]
+# Turn on autopilot
+autopilot.active=1
+
+# Allocate on-chain funds to autopilot
+autopilot.allocation=1.0
+
+# Use external scoring mode for autopilot
+autopilot.heuristic=externalscore:1.0
+
+# Set maximum channels for autopilot
+autopilot.maxchannels=15
+
+# Set the minimum channel size for autopilot
+autopilot.minchansize=10000000
+
+# Set the confirmations required
+autopilot.minconfs=1
+
+[Bitcoin]
+# Turn on Bitcoin mode
+bitcoin.active=1
+
+# Forward fee rate in parts per million
+bitcoin.feerate=1000
+
+# Set bitcoin.testnet=1 or bitcoin.mainnet=1 as appropriate
+bitcoin.mainnet=1
+
+# Set backing node, bitcoin.node=neutrino or bitcoin.node=bitcoind
+bitcoin.node=bitcoind
+
+[bitcoind]
+# Set the password to what the auth script said
+bitcoind.rpcpass=
+
+# Set the username
+bitcoind.rpcuser=bitcoinrpc
+
+# Set the ZMQ listeners
+bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332
+bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333
+
+[neutrino]
+# Set fee data URL, change to btc-fee-estimates.json if mainnet
+neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json
+
+[routerrpc]
+# Set default chance of a hop success
+routerrpc.apriorihopprob=0.40
+
+# Set minimum desired savings of trying a cheaper path
+routerrpc.attemptcost=10
+
+# Set the number of historical routing records
+routerrpc.maxmchistory=10000
+
+# Set the min confidence in a path worth trying
+routerrpc.minrtprob=0.001
+
+# Set the time to forget past routing failures
+routerrpc.penaltyhalflife=24h0m0s
+
+[routing]
+# Set validation of channels off: only if using Neutrino
+routing.assumechanvalid=1
+
+[tor]
+# Enable Tor if using
+tor.active=1
+tor.streamisolation=1
+tor.v3=1
+```
+
+```shell
+# Start LND with nohup for non-interactive operation
+nohup /home/ubuntu/go/bin/lnd > /dev/null 2> /home/ubuntu/.lnd/err.log &
+```
+
+```shell
+emacs ~/.lnd/wallet_password
+# Enter your wallet password, save and exit
+```
+
+Edit crontab to run on startup and setup easy link of logs:
+
+```shell
+ln -s ~/.lnd/logs/bitcoin/mainnet/lnd.log ~/lnd-mainnet.log
+
+crontab -e
+```
+
+```
+# Start LND on boot
+@reboot nohup /home/ubuntu/go/bin/lnd > /dev/null 2> /home/ubuntu/.lnd/err.log &
+
+# Unlock wallet if locked
+* * * * * /home/ubuntu/.npm-global/bin/bos unlock /home/ubuntu/.lnd/wallet_password
+
+# Update autopilot directives (use btc.json if mainnet)
+0 * * * * /home/ubuntu/.npm-global/bin/bos autopilot on --url="https://nodes.lightning.computer/availability/v1/btctestnet.json"
+```
+
+[Bitcoin Core auth script]: https://github.com/bitcoin/bitcoin/blob/master/share/rpcauth/rpcauth.py
+[Bitcoin Core data directory]: https://en.bitcoin.it/wiki/Data_directory
+[Download Bitcoin Core]: https://bitcoincore.org/en/download/
+[Install Tor]: https://2019.www.torproject.org/docs/installguide.html.en
+[LND]: https://github.com/lightningnetwork/lnd
+[Node.js installation]: https://nodejs.org/en/download/package-manager/
