@@ -24,6 +24,14 @@ If using Neutrino lite-mode a separate disk is not necessary.
 
 ## Initial Setup
 
+If on EC2, add an Elastic IP and associate it with the node
+
+Connect to the instance, EC2 example:
+
+```
+ssh -i ~/path_to_downloaded_pem_file ubuntu@IP_OF_INSTANCE
+```
+
 Install your favorite editor, like emacs:
 
 ```shell
