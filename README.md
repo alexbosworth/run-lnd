@@ -13,7 +13,6 @@ Example commands are given from the perspective of running Ubuntu
 - DISK: 25 GB+
 
 - *Note: EC2 will only give you 5 IPs per region*
-- *Note: Only self-access is allowed on EC2 PEMs, change privs after downloading*
 
 ### Disk:
 
@@ -24,9 +23,16 @@ If using Neutrino lite-mode a separate disk is not necessary.
 
 ## Initial Setup
 
-If on EC2, add an Elastic IP and associate it with the node
+If on EC2:
 
-Connect to the instance, EC2 example:
+```shell
+# adjust privs on PEM file
+sudo chmod 600 ~/PATH_TO_PEM_FILE 
+```
+
+Add an Elastic IP and associate it with the node
+
+Connect:
 
 ```
 ssh -i ~/path_to_downloaded_pem_file ubuntu@IP_OF_INSTANCE
