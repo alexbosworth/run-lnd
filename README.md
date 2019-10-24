@@ -590,6 +590,15 @@ crontab -e
 0 * * * * /home/ubuntu/.npm-global/bin/bos autopilot on --url="https://nodes.lightning.computer/availability/v1/btctestnet.json"
 ```
 
+```
+## Connect the new node to some existing nodes to bootstrap the graph
+# Testnet, connect to htlc.me, testnet.yalls.org
+lncli connect 03c856d2dbec7454c48f311031f06bb99e3ca1ab15a9b9b35de14e139aa663b463@34.201.74.232:9735
+lncli connect 027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8@3.13.29.161:9735
+# Mainnet, connect to some nodes, like:
+lncli connect 03e50492eab4107a773141bb419e107bda3de3d55652e6e1a41225f06a0bbf2d56@3.13.48.80:9735
+```
+
 [Bitcoin Core auth script]: https://github.com/bitcoin/bitcoin/blob/master/share/rpcauth/rpcauth.py
 [Bitcoin Core data directory]: https://en.bitcoin.it/wiki/Data_directory
 [Download Bitcoin Core]: https://bitcoincore.org/en/download/
