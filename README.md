@@ -590,7 +590,7 @@ crontab -e
 0 * * * * /home/ubuntu/.npm-global/bin/bos autopilot on --url="https://nodes.lightning.computer/availability/v1/btctestnet.json"
 ```
 
-```
+```shell
 ## Connect the new node to some existing nodes to bootstrap the graph
 # Testnet, connect to htlc.me, testnet.yalls.org
 lncli connect 03c856d2dbec7454c48f311031f06bb99e3ca1ab15a9b9b35de14e139aa663b463@34.201.74.232:9735
