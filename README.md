@@ -341,7 +341,9 @@ ln -s /blockchain/.bitcoin/data/testnet3/debug.log ~/bitcoind-testnet.log
 
 ## Install Go
 
-Check if Go is installed and what version it is:
+Building from source? [Install Go]
+
+You can check if Go is installed and what version it is, and then install or update:
 
 ```shell
 go version
@@ -608,6 +610,7 @@ lncli openchannel 03e50492eab4107a773141bb419e107bda3de3d55652e6e1a41225f06a0bbf
 [Bitcoin Core auth script]: https://github.com/bitcoin/bitcoin/blob/master/share/rpcauth/rpcauth.py
 [Bitcoin Core data directory]: https://en.bitcoin.it/wiki/Data_directory
 [Download Bitcoin Core]: https://bitcoincore.org/en/download/
+[Install Go]: https://golang.org/doc/install
 [Install LND]: https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md
 [Install Tor]: https://2019.www.torproject.org/docs/installguide.html.en
 [LND]: https://github.com/lightningnetwork/lnd
