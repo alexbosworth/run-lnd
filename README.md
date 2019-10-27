@@ -516,7 +516,12 @@ bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332
 bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333
 
 [neutrino]
-# Setup a peer if on testnet
+# Mainnet addpeers
+neutrino.connect=btcd-mainnet.lightning.computer
+neutrino.connect=mainnet1-btcd.zaphq.io
+neutrino.connect=mainnet2-btcd.zaphq.io
+
+# Testnet addpeers
 neutrino.addpeer=btcd-testnet.lightning.computer
 neutrino.addpeer=testnet1-btcd.zaphq.io
 neutrino.addpeer=testnet2-btcd.zaphq.io
