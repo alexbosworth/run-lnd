@@ -612,11 +612,20 @@ lncli openchannel 03c856d2dbec7454c48f311031f06bb99e3ca1ab15a9b9b35de14e139aa663
 lncli openchannel 03e50492eab4107a773141bb419e107bda3de3d55652e6e1a41225f06a0bbf2d56 5000000
 ```
 
+## Load Coins
+
+If you're using testnet, here are some faucets:
+
+- [Coinfaucet]
+- [YABTF]
+
 [Bitcoin Core auth script]: https://github.com/bitcoin/bitcoin/blob/master/share/rpcauth/rpcauth.py
 [Bitcoin Core data directory]: https://en.bitcoin.it/wiki/Data_directory
+[Coinfaucet]: https://coinfaucet.eu/en/btc-testnet/
 [Download Bitcoin Core]: https://bitcoincore.org/en/download/
 [Install Go]: https://golang.org/doc/install
 [Install LND]: https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md
 [Install Tor]: https://2019.www.torproject.org/docs/installguide.html.en
 [LND]: https://github.com/lightningnetwork/lnd
 [Node.js installation]: https://nodejs.org/en/download/package-manager/
+[YABTF]: https://testnet-faucet.mempool.co
