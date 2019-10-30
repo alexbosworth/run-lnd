@@ -614,6 +614,10 @@ npm i -g balanceofsatoshis
 
 ## Load Coins
 
+```shell
+bos chain-deposit
+```
+
 If you're using testnet, here are some faucets:
 
 - [Coinfaucet]
