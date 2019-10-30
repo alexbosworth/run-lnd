@@ -381,31 +381,6 @@ alias lncli="lncli --network=testnet"
 . ~/.profile
 ```
 
-## Install Balance of Satoshis
-
-This will need a [Node.js installation] to run:
-
-```shell
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
-# Avoid using sudo with NPM
-mkdir ~/.npm-global
-npm config set prefix '~/.npm-global'
-
-# Update path
-emacs ~/.profile
-
-# Add line to the end
-PATH="$HOME/.npm-global/bin:$PATH"
-
-# Save and exit, update shell:
-. ~/.profile
-
-# Install balanceofsatoshis
-npm i -g balanceofsatoshis
-```
-
 ## Install LND
 
 [Install LND] on the machine, then setup its configuration
@@ -610,6 +585,31 @@ lncli connect 03e50492eab4107a773141bb419e107bda3de3d55652e6e1a41225f06a0bbf2d56
 lncli openchannel 03c856d2dbec7454c48f311031f06bb99e3ca1ab15a9b9b35de14e139aa663b463 500000
 # mainnet
 lncli openchannel 03e50492eab4107a773141bb419e107bda3de3d55652e6e1a41225f06a0bbf2d56 5000000
+```
+
+## Install Balance of Satoshis
+
+This will need a [Node.js installation] to run:
+
+```shell
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Avoid using sudo with NPM
+mkdir ~/.npm-global
+npm config set prefix '~/.npm-global'
+
+# Update path
+emacs ~/.profile
+
+# Add line to the end
+PATH="$HOME/.npm-global/bin:$PATH"
+
+# Save and exit, update shell:
+. ~/.profile
+
+# Install balanceofsatoshis
+npm i -g balanceofsatoshis
 ```
 
 ## Load Coins
