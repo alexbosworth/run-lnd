@@ -356,13 +356,13 @@ sudo rm -rf /usr/local/go
 sudo apt-get update && sudo apt-get -y upgrade
 
 # Download Go
-wget https://dl.google.com/go/go1.13.3.linux-amd64.tar.gz
+wget https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz
 
 # Extract it
-sudo tar -xvf go1.13.3.linux-amd64.tar.gz
+sudo tar -xvf go1.13.4.linux-amd64.tar.gz
 
 # Install it and remove the download
-sudo mv go /usr/local && rm go1.13.3.linux-amd64.tar.gz
+sudo mv go /usr/local && rm go1.13.4.linux-amd64.tar.gz
 
 # On a new install, make a directory for it
 mkdir ~/go
