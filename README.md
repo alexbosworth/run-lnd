@@ -204,6 +204,13 @@ Setup directories on the Blockchain storage volume, and also create the
 mkdir /blockchain/.bitcoin && mkdir /blockchain/.bitcoin/data && mkdir ~/.bitcoin
 ```
 
+```shell
+wget https://raw.githubusercontent.com/bitcoin/bitcoin/master/share/rpcauth/rpcauth.py
+python ./rpcauth.py bitcoinrpc
+# This will output the authentication string to add to bitcoin.conf
+# Save the password, this will be used for LND configuration
+```
+
 Edit the configuration file. If you have an existing Bitcoin Core, use 
 `getbestblockhash` to get the current chain tip hash.
 
@@ -211,14 +218,7 @@ Edit the configuration file. If you have an existing Bitcoin Core, use
 emacs ~/.bitcoin/bitcoin.conf
 ```
 
-Download and use the [Bitcoin Core RPC auth script] to generate credentials:
-
-```shell
-wget https://raw.githubusercontent.com/bitcoin/bitcoin/master/share/rpcauth/rpcauth.py
-python ./rpcauth.py bitcoinrpc
-# This will output the authentication string to add to bitcoin.conf
-# Save the password, this will be used for LND configuration
-```
+Download and use the [Bitcoin Core auth script] to generate credentials:
 
 Add this configuration:
 
