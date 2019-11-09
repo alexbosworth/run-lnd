@@ -204,6 +204,8 @@ Setup directories on the Blockchain storage volume, and also create the
 mkdir /blockchain/.bitcoin && mkdir /blockchain/.bitcoin/data && mkdir ~/.bitcoin
 ```
 
+Download and use the [Bitcoin Core auth script] to generate credentials:
+
 ```shell
 wget https://raw.githubusercontent.com/bitcoin/bitcoin/master/share/rpcauth/rpcauth.py
 python ./rpcauth.py bitcoinrpc
@@ -217,8 +219,6 @@ Edit the configuration file. If you have an existing Bitcoin Core, use
 ```shell
 emacs ~/.bitcoin/bitcoin.conf
 ```
-
-Download and use the [Bitcoin Core auth script] to generate credentials:
 
 Add this configuration:
 
