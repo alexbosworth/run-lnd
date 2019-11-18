@@ -476,6 +476,9 @@ bitcoin.feerate=1000
 # Set bitcoin.testnet=1 or bitcoin.mainnet=1 as appropriate
 bitcoin.mainnet=1
 
+# Set the lower bound for HTLCs
+bitcoin.minhtlc=1
+
 # Set backing node, bitcoin.node=neutrino or bitcoin.node=bitcoind
 bitcoin.node=bitcoind
 
