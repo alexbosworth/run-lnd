@@ -417,7 +417,7 @@ externalip=INSTANCE_IP
 # Set the maximum amount of commit fees in a channel
 max-channel-fee-allocation=1.0
 
-# Set the max tiemout blocks of a payment
+# Set the max timeout blocks of a payment
 max-cltv-expiry=5000
 
 # Pending channel limit
