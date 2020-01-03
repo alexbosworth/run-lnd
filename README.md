@@ -473,28 +473,6 @@ tlsextraip=IP_ADDRESS
 # Allow disconnects
 unsafe-disconnect=1
 
-[autopilot]
-# Turn on autopilot
-autopilot.active=1
-
-# Allocate on-chain funds to autopilot
-autopilot.allocation=1.0
-
-# Set the channel confs to wait for channel opens
-autopilot.conftarget=2
-
-# Use external scoring mode for autopilot
-autopilot.heuristic=externalscore:1.0
-
-# Set maximum channels for autopilot
-autopilot.maxchannels=15
-
-# Set the minimum channel size for autopilot
-autopilot.minchansize=10000000
-
-# Set the confirmations required
-autopilot.minconfs=2
-
 [Bitcoin]
 # Turn on Bitcoin mode
 bitcoin.active=1
