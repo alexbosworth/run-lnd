@@ -356,7 +356,9 @@ Create a file to rotate the logs
 sudo emacs /etc/logrotate.d/bitcoin-debug
 
 # Add these instructions
-/home/bitcoin/.bitcoin/debug.log
+# Uncomment depending on mainnet or testnet:
+# /blockchain/.bitcoin/data/debug.log
+# /blockchain/.bitcoin/data/testnet3/debug.log
 {
         rotate 5
         copytruncate
