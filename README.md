@@ -272,6 +272,9 @@ rpcauth=
 # Turn on the RPC server
 server=1
 
+# Reduce the log file size on restarts
+shrinkdebuglog=1
+
 # Set testnet if needed
 testnet=1
 
@@ -345,6 +348,25 @@ ln -s /blockchain/.bitcoin/data/debug.log ~/bitcoind-mainnet.log
 
 # Or Testnet:
 ln -s /blockchain/.bitcoin/data/testnet3/debug.log ~/bitcoind-testnet.log
+```
+
+Create a file to rotate the logs
+
+```shell
+sudo emacs /etc/logrotate.d/bitcoin-debug
+
+# Add these instructions
+/home/bitcoin/.bitcoin/debug.log
+{
+        rotate 5
+        copytruncate
+        daily
+        missingok
+        notifempty
+        compress
+        delaycompress
+        sharedscripts
+}
 ```
 
 ## Install Go
