@@ -430,7 +430,7 @@ mkdir ~/.lnd
 emacs ~/.lnd/lnd.conf
 ```
 
-Set configuration for LND:
+Set configuration for LND: (Make sure to replace IP etc with correct IP)
 
 ```ini
 [Application Options]
@@ -503,21 +503,9 @@ bitcoind.rpcuser=bitcoinrpc
 bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332
 bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333
 
-[neutrino]
-# Mainnet addpeers
-neutrino.connect=btcd-mainnet.lightning.computer
-neutrino.connect=mainnet1-btcd.zaphq.io
-neutrino.connect=mainnet2-btcd.zaphq.io
-
-# Testnet addpeers
-neutrino.addpeer=btcd-testnet.lightning.computer
-neutrino.addpeer=testnet1-btcd.zaphq.io
-neutrino.addpeer=testnet2-btcd.zaphq.io
-
-# Set fee data URL, change to btc-fee-estimates.json if mainnet
-neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json
-
 [routerrpc]
+# Make sure that LND is the binary release or built with the routerrpc tag
+
 # Set default chance of a hop success
 routerrpc.apriorihopprob=0.40
 
@@ -542,6 +530,24 @@ routing.assumechanvalid=1
 tor.active=1
 tor.streamisolation=1
 tor.v3=1
+```
+
+If `bitcoin.node=neutrino` is set, add Neutrino options to lnd.conf:
+
+```ini
+[neutrino]
+# Mainnet addpeers
+neutrino.connect=btcd-mainnet.lightning.computer
+neutrino.connect=mainnet1-btcd.zaphq.io
+neutrino.connect=mainnet2-btcd.zaphq.io
+
+# Testnet addpeers
+neutrino.addpeer=btcd-testnet.lightning.computer
+neutrino.addpeer=testnet1-btcd.zaphq.io
+neutrino.addpeer=testnet2-btcd.zaphq.io
+
+# Set fee data URL, change to btc-fee-estimates.json if mainnet
+neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json
 ```
 
 ```shell
