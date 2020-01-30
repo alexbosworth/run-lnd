@@ -512,6 +512,9 @@ bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333
 # Set default chance of a hop success
 routerrpc.apriorihopprob=0.40
 
+# Start to ignore nodes if they return many failures (set to 1 to turn off)
+routerrpc.aprioriweight=0.75
+
 # Set minimum desired savings of trying a cheaper path
 routerrpc.attemptcost=10
 
