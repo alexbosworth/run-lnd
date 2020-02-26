@@ -534,7 +534,6 @@ routing.assumechanvalid=1
 [tor]
 # Enable Tor if using
 tor.active=1
-tor.streamisolation=1
 tor.v3=1
 ```
 
@@ -549,6 +548,8 @@ neutrino.connect=mainnet2-btcd.zaphq.io
 
 # Testnet addpeers
 neutrino.addpeer=btcd-testnet.lightning.computer
+neutrino.addpeer=lnd.bitrefill.com:18333
+neutrino.addpeer=faucet.lightning.community
 neutrino.addpeer=testnet1-btcd.zaphq.io
 neutrino.addpeer=testnet2-btcd.zaphq.io
 
