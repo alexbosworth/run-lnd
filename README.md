@@ -526,7 +526,7 @@ routerrpc.maxmchistory=10000
 routerrpc.minrtprob=0.001
 
 # Set the time to forget past routing failures
-routerrpc.penaltyhalflife=24h0m0s
+routerrpc.penaltyhalflife=6h0m0s
 
 [routing]
 # Set validation of channels off: only if using Neutrino
