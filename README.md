@@ -428,7 +428,7 @@ sudo apt-get install -y build-essential
 cd ~/
 git clone https://github.com/lightningnetwork/lnd.git
 cd lnd
-git checkout v0.9.2-beta
+git checkout v0.10.0-beta
 make && make install tags="autopilotrpc chainrpc experimental invoicesrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc"
 mkdir ~/.lnd
 emacs ~/.lnd/lnd.conf
@@ -440,6 +440,9 @@ Set configuration for LND: (Make sure to replace IP etc with correct IP)
 [Application Options]
 # Public network name
 alias=YOUR_ALIAS
+
+# Allow gift routes
+allow-circular-route=1
 
 # Public hex color
 color=#000000
