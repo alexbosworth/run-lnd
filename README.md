@@ -292,6 +292,7 @@ zmqpubrawtx=tcp://127.0.0.1:28333
 Using Tor? Add additional lines:
 
 ```ini
+# put under [main] section
 # Some mainnet peers
 addnode=gyn2vguc35viks2b.onion
 addnode=kvd44sw7skb5folw.onion
