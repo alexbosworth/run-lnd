@@ -429,7 +429,7 @@ sudo apt-get install -y build-essential
 cd ~/
 git clone https://github.com/lightningnetwork/lnd.git
 cd lnd
-git checkout v0.10.2-beta
+git checkout v0.11.0-beta
 make && make install tags="autopilotrpc chainrpc experimental invoicesrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc"
 mkdir ~/.lnd
 emacs ~/.lnd/lnd.conf
@@ -439,6 +439,9 @@ Set configuration for LND: (Make sure to replace IP etc with correct IP)
 
 ```ini
 [Application Options]
+# Allow push payments
+accept-keysend=1
+
 # Public network name
 alias=YOUR_ALIAS
 
@@ -508,11 +511,15 @@ bitcoind.rpcuser=bitcoinrpc
 bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332
 bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333
 
+[protocol]
+# Enable large channels support
+protocol.wumbo-channels=1
+
 [routerrpc]
 # Make sure that LND is the binary release or built with the routerrpc tag
 
 # Set default chance of a hop success
-routerrpc.apriorihopprob=0.40
+routerrpc.apriorihopprob=0.5
 
 # Start to ignore nodes if they return many failures (set to 1 to turn off)
 routerrpc.aprioriweight=0.75
@@ -524,7 +531,7 @@ routerrpc.attemptcost=10
 routerrpc.maxmchistory=10000
 
 # Set the min confidence in a path worth trying
-routerrpc.minrtprob=0.001
+routerrpc.minrtprob=0.005
 
 # Set the time to forget past routing failures
 routerrpc.penaltyhalflife=6h0m0s
