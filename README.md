@@ -554,6 +554,8 @@ If `bitcoin.node=neutrino` is set, add Neutrino options to lnd.conf:
 neutrino.connect=btcd-mainnet.lightning.computer
 neutrino.connect=mainnet1-btcd.zaphq.io
 neutrino.connect=mainnet2-btcd.zaphq.io
+neutrino.connect=mainnet3-btcd.zaphq.io
+neutrino.connect=mainnet4-btcd.zaphq.io
 
 # Testnet addpeers
 neutrino.addpeer=btcd-testnet.lightning.computer
@@ -561,6 +563,8 @@ neutrino.addpeer=lnd.bitrefill.com:18333
 neutrino.addpeer=faucet.lightning.community
 neutrino.addpeer=testnet1-btcd.zaphq.io
 neutrino.addpeer=testnet2-btcd.zaphq.io
+neutrino.addpeer=testnet3-btcd.zaphq.io
+neutrino.addpeer=testnet4-btcd.zaphq.io
 
 # Set fee data URL, change to btc-fee-estimates.json if mainnet
 neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json
