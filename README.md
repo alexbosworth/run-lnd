@@ -558,6 +558,7 @@ neutrino.connect=mainnet3-btcd.zaphq.io
 neutrino.connect=mainnet4-btcd.zaphq.io
 
 # Testnet addpeers
+neutrino.addpeer=btcd-testnet.ion.radar.tech
 neutrino.addpeer=btcd-testnet.lightning.computer
 neutrino.addpeer=lnd.bitrefill.com:18333
 neutrino.addpeer=faucet.lightning.community
