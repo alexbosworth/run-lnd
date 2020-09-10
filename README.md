@@ -13,6 +13,7 @@ Example commands are given from the perspective of running Ubuntu
 - DISK: 25 GB+
 
 - *Note: EC2 will only give you 5 IPs per region*
+- *Note: When creating an EC2 instance you'll have to add rules to it's security group that allow access to ports 9735 and 10009*
 
 ### Disk:
 
