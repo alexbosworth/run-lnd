@@ -552,11 +552,11 @@ If `bitcoin.node=neutrino` is set, add Neutrino options to lnd.conf:
 ```ini
 [neutrino]
 # Mainnet addpeers
-neutrino.connect=btcd-mainnet.lightning.computer
-neutrino.connect=mainnet1-btcd.zaphq.io
-neutrino.connect=mainnet2-btcd.zaphq.io
-neutrino.connect=mainnet3-btcd.zaphq.io
-neutrino.connect=mainnet4-btcd.zaphq.io
+neutrino.addpeer=btcd-mainnet.lightning.computer
+neutrino.addpeer=mainnet1-btcd.zaphq.io
+neutrino.addpeer=mainnet2-btcd.zaphq.io
+neutrino.addpeer=mainnet3-btcd.zaphq.io
+neutrino.addpeer=mainnet4-btcd.zaphq.io
 
 # Testnet addpeers
 neutrino.addpeer=btcd-testnet.ion.radar.tech
