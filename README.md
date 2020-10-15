@@ -203,10 +203,15 @@ Using Bitcoin Core as a chain backend? [Download Bitcoin Core].
 
 Installation:
 
-```shell
-# Add repository and install
-sudo add-apt-repository ppa:bitcoin/bitcoin -y
-sudo apt update && sudo apt install -y bitcoind
+```
+sudo apt install git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev libminiupnpc-dev libzmq3-dev
+git clone -b v0.20.1 https://github.com/bitcoin/bitcoin.git
+cd bitcoin/
+./autogen.sh 
+./configure CXXFLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768" --enable-cxx --with-zmq --without-gui --disable-shared --with-pic --disable-tests --disable-bench --enable-upnp-default --disable-wallet
+# This may take a while
+make
+sudo make install
 ```
 
 Setup directories on the Blockchain storage volume, and also create the 
