@@ -458,7 +458,7 @@ allow-circular-route=1
 color=#000000
 
 # Log levels
-debuglevel=CNCT=debug,HSWC=debug
+debuglevel=CNCT=debug,CRTR=debug,HSWC=debug,NTFN=debug,RPCS=debug
 
 # Public P2P IP (remove this if using Tor)
 externalip=INSTANCE_IP
