@@ -460,8 +460,11 @@ color=#000000
 # Log levels
 debuglevel=CNCT=debug,HSWC=debug
 
-# Public P2P IP
+# Public P2P IP (remove this if using Tor)
 externalip=INSTANCE_IP
+
+# Listen (not using Tor? Remove this)
+listen=localhost
 
 # Set the maximum amount of commit fees in a channel
 max-channel-fee-allocation=1.0
