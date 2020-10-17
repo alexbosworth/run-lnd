@@ -463,6 +463,9 @@ debuglevel=CNCT=debug,CRTR=debug,HSWC=debug,NTFN=debug,RPCS=debug
 # Public P2P IP (remove this if using Tor)
 externalip=INSTANCE_IP
 
+# Avoid historical graph data sync
+ignore-historical-gossip-filters=1
+
 # Listen (not using Tor? Remove this)
 listen=localhost
 
@@ -510,6 +513,8 @@ bitcoin.minhtlc=1
 bitcoin.node=bitcoind
 
 [bitcoind]
+# Configuration for using Bitcoin Core backend
+
 # Set the password to what the auth script said
 bitcoind.rpcpass=
 
