@@ -10,7 +10,7 @@ Example commands are given from the perspective of running Ubuntu
 - IP: A clear-net routing node should get a fairly static IP
 - OS: Ubuntu is pretty common, any OS
 - PORT: 9735 will be the standard P2P port, 10009 the standard gRPC port
-- DISK: 25 GB+
+- DISK: 25 GB+ (on AWS select the io2 storage)
 
 - *Note: EC2 will only give you 5 IPs per region*
 - *Note: When creating an EC2 instance you'll have to add rules to it's security group that allow access to ports 9735 and 10009*
