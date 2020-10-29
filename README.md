@@ -490,8 +490,14 @@ sync-freelist=1
 # Avoid high startup overhead
 stagger-initial-reconnect=1
 
-# TLS certificate IP
-tlsextraip=IP_ADDRESS
+# Delete and recreate RPC TLS certificate when details change or cert expires
+tlsautorefresh=1
+
+# Do not include IPs in the RPC TLS certificate
+tlsdisableautofill=1
+
+# Add DNS to the RPC TLS certificate
+tlsextradomain=YOUR_DOMAIN_NAME
 
 [Bitcoin]
 # Turn on Bitcoin mode
