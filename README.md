@@ -652,7 +652,7 @@ lncli openchannel 03e50492eab4107a773141bb419e107bda3de3d55652e6e1a41225f06a0bbf
 This will need a [Node.js installation] to run:
 
 ```shell
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
 # Avoid using sudo with NPM
