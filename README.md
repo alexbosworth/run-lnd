@@ -622,7 +622,7 @@ crontab -e
 ```
 
 ```
-# Start LND on boot
+# Start LND on boot - or use systemd if you prefer: https://gist.github.com/alexbosworth/171958cc9888b7ebf3a91e5c23a57464
 @reboot nohup /home/ubuntu/go/bin/lnd > /dev/null 2> /home/ubuntu/.lnd/err.log &
 
 # Unlock wallet if locked
