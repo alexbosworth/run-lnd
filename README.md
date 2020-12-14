@@ -153,8 +153,8 @@ sudo apt-get update && sudo apt install -y apt-transport-https
 # Edit package sources for installation
 sudo emacs /etc/apt/sources.list.d/tor.list
 
-deb https://deb.torproject.org/torproject.org bionic main
-deb-src https://deb.torproject.org/torproject.org bionic main
+deb https://deb.torproject.org/torproject.org focal main
+deb-src https://deb.torproject.org/torproject.org focal main
 
 # Get the GPG key for Tor and add it to GPG
 sudo curl https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc | sudo gpg --import
