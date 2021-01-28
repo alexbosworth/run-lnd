@@ -10,7 +10,7 @@ Example commands are given from the perspective of running Ubuntu
 - IP: A clear-net routing node should get a fairly static IP
 - OS: Ubuntu is pretty common, any OS
 - PORT: 9735 will be the standard P2P port, 10009 the standard gRPC port
-- DISK: 25 GB+ (on AWS select the io2 storage)
+- DISK: 25 GB+ (on AWS select the io2 storage and at least 200 IOPs)
 
 - *Note: EC2 will only give you 5 IPs per region*
 - *Note: When creating an EC2 instance you'll have to add rules to it's security group that allow access to ports 9735 and 10009*
@@ -114,6 +114,7 @@ Setup a local firewall:
 sudo ufw logging on
 sudo ufw enable
 # PRESS Y
+# Allow access to 9735 the P2P port and 10009 the gRPC port
 sudo ufw status
 sudo ufw allow OpenSSH
 sudo ufw allow 9735
@@ -205,7 +206,7 @@ Installation:
 
 ```
 sudo apt install git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev libminiupnpc-dev libzmq3-dev
-git clone -b v0.20.1 https://github.com/bitcoin/bitcoin.git
+git clone -b v0.21.0 https://github.com/bitcoin/bitcoin.git
 cd bitcoin/
 ./autogen.sh 
 ./configure CXXFLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768" --enable-cxx --with-zmq --without-gui --disable-shared --with-pic --disable-tests --disable-bench --enable-upnp-default --disable-wallet
@@ -389,7 +390,7 @@ You can check if Go is installed and what version it is, and then install or upd
 
 ```shell
 go version
-# Should show Go version 1.15.5 or higher
+# Should show Go version 1.15.7 or higher
 
 # If an out of date Go is already installed
 sudo rm -rf /usr/local/go
@@ -398,13 +399,13 @@ sudo rm -rf /usr/local/go
 sudo apt-get update && sudo apt-get -y upgrade
 
 # Download Go
-wget https://golang.org/dl/go1.15.5.linux-amd64.tar.gz
+wget https://golang.org/dl/go1.15.7.linux-amd64.tar.gz
 
 # Extract it
-sudo tar -xvf go1.15.5.linux-amd64.tar.gz
+sudo tar -xvf go1.15.7.linux-amd64.tar.gz
 
 # Install it and remove the download
-sudo mv go /usr/local && rm go1.15.5.linux-amd64.tar.gz
+sudo mv go /usr/local && rm go1.15.7.linux-amd64.tar.gz
 
 # On a new install, make a directory for it
 mkdir ~/go
@@ -435,7 +436,7 @@ sudo apt-get install -y build-essential
 cd ~/
 git clone https://github.com/lightningnetwork/lnd.git
 cd lnd
-git checkout v0.11.1-beta
+git checkout v0.12.0-beta
 make && make install tags="autopilotrpc chainrpc experimental invoicesrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc"
 mkdir ~/.lnd
 emacs ~/.lnd/lnd.conf
@@ -462,6 +463,10 @@ debuglevel=CNCT=debug,CRTR=debug,HSWC=debug,NTFN=debug,RPCS=debug
 
 # Public P2P IP (remove this if using Tor)
 externalip=INSTANCE_IP
+
+# Mark unpayable, unpaid invoices as deleted
+gc-canceled-invoices-on-startup=1
+gc-canceled-invoices-on-the-fly=1
 
 # Avoid historical graph data sync
 ignore-historical-gossip-filters=1
@@ -546,6 +551,7 @@ routerrpc.aprioriweight=0.75
 
 # Set minimum desired savings of trying a cheaper path
 routerrpc.attemptcost=10
+routerrpc.attemptcostppm=10
 
 # Set the number of historical routing records
 routerrpc.maxmchistory=10000
@@ -593,6 +599,7 @@ neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimate
 
 ```shell
 # Start LND with nohup for non-interactive operation
+# Alternatively: use systemd https://gist.github.com/alexbosworth/171958cc9888b7ebf3a91e5c23a57464
 nohup /home/ubuntu/go/bin/lnd > /dev/null 2> /home/ubuntu/.lnd/err.log &
 ```
 
@@ -626,10 +633,7 @@ crontab -e
 @reboot nohup /home/ubuntu/go/bin/lnd > /dev/null 2> /home/ubuntu/.lnd/err.log &
 
 # Unlock wallet if locked
-* * * * * /home/ubuntu/.npm-global/bin/bos unlock /home/ubuntu/.lnd/wallet_password
-
-# Update autopilot directives (use btc.json if mainnet)
-0 * * * * /home/ubuntu/.npm-global/bin/bos autopilot on --url="https://nodes.lightning.computer/availability/v1/btctestnet.json"
+*/5 * * * * /home/ubuntu/.npm-global/bin/bos unlock /home/ubuntu/.lnd/wallet_password
 ```
 
 ```shell
