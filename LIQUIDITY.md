@@ -8,11 +8,11 @@ It's a concept sometimes called various names in Lightning:
 - Balance
 - Bandwidth
 
-The Lightning Network is a network of payment channels. In payment channels you can only send back and forth as much capital as has been committed to the Blockchain at the start of the channel. This is because every updated set of balances are represented by potential signed transactions that can be published to the Blockchain and the Blockchain consensus will reject a transaction that pays out more money than it sees was paid in.
+The Lightning Network is a network of payment channels. In payment channels you can send back and forth as much capital as has been committed to the Blockchain at the start of the channel. This is because every updated balance is represented by a signed transaction that can be published to the Blockchain and the Blockchain consensus will reject transactions that pay out more money than was paid in.
 
-Within that boundary, capital can flow back and forth between you and your peer. Your capital at the moment dictates how much you can send towards your peer, their capital dictates how much they can send in your direction.
+Within that starting boundary capital can flow back and forth between you and your peer. Your capital at the moment dictates how much you can send towards your peer, their capital dictates how much they can send in your direction.
 
-Because Lightning is passing funds across from peer to peer but network node balances are private, your local capital dictates an upper bound of how much you can send out across the network to arbitrary destinations, and does not dictate a lower bound. For example if two peers are only connected to each other, their ability to send to the greater Lightning Network is zero.
+Because Lightning is passing funds across from peer to peer but network node balances are private, your local capital dictates an upper bound of how much you can send out across the network to arbitrary destinations and does not dictate a lower bound. For example if two peers are only connected to each other, their ability to send to the greater Lightning Network is zero.
 
 Liquidity is therefore generally discussed in the context of an abstract greater network rather than in directly observable balances. Liquidity is the capital amount that you can use to effectively send and receive across the broadly connected Lightning Network.
 
@@ -63,9 +63,9 @@ Getting good outbound liquidity is generally fairly easy since most routing node
 
 Your inbound liquidity represents the capital of other people. Because this is literally other people's money, it's not quite as straightforward to control as your local outbound.
 
-Just like outbound liquidity, the quality of inbound liquidity is difficult to acertain and is constantly changing as capital flows in different ways through the Lightning Network.
+Just like outbound liquidity, the quality of inbound liquidity is difficult to ascertain and is constantly changing as capital flows in different ways through the Lightning Network.
 
-Increasing your inbound liquidity means increasing the remote balance of good liquidity channels. This generally requires some kind of recompense to various opposing parties that must hold capital in your direction.
+Increasing your inbound liquidity means increasing the remote balance of good liquidity channels. This generally requires some kind of recompense to various remote parties that must hold capital in your direction.
 
 How to get inbound liquidity:
 
@@ -77,4 +77,4 @@ How to get inbound liquidity:
 - Serve as a routing peer for nodes that send out more than they receive
 - Circular rebalance poor inbound liquidity to good inbound liquidity
 
-High quality inbound liquidity is the scarce resource of Lightning. For routing nodes, it is the main asset that is being translated into routing fees. For merchants, it is required to receive payments.
+High quality inbound liquidity is a scarce resource of Lightning. For routing nodes, it is an asset that is being translated into routing fees. For merchants, it is required to receive payments.
