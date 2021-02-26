@@ -213,7 +213,7 @@ cd bitcoin/
 ./autogen.sh 
 ./configure CXXFLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768" --enable-cxx --with-zmq --without-gui --disable-shared --with-pic --disable-tests --disable-bench --enable-upnp-default --disable-wallet
 # This may take a while
-make
+make -j "$(($(nproc)+1))"
 sudo make install
 ```
 
