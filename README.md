@@ -111,6 +111,8 @@ sudo chown `whoami` /blockchain
 Setup a local firewall:
 
 ```shell
+# Check if UFW is installed
+which ufw
 sudo ufw logging on
 sudo ufw enable
 # PRESS Y
