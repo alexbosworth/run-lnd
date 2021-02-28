@@ -167,7 +167,7 @@ sudo gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
 sudo apt update && sudo apt install -y tor deb.torproject.org-keyring
 
 # Add a user for Tor
-sudo usermod -a -G debian-tor ubuntu
+sudo usermod -a -G debian-tor `whoami`
 ```
 
 Then configure Tor:
