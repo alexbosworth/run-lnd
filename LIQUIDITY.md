@@ -70,7 +70,7 @@ Increasing your inbound liquidity means increasing the remote balance of good li
 How to get inbound liquidity:
 
 - Peers earning fees from forwards to you may add liquidity in your direction
-- You can engage in a submarine swap to transfer off-chain funds for on-chain
+- You can engage in a [submarine swap][1] to transfer off-chain funds for on-chain
 - You can purchase an inbound channel from someone
 - You can arrange to create a dual funded channel with someone
 - Try and send regular outflows of money off-chain instead of on-chain
@@ -78,3 +78,5 @@ How to get inbound liquidity:
 - Circular rebalance poor inbound liquidity to good inbound liquidity
 
 High quality inbound liquidity is a scarce resource of Lightning. For routing nodes, it is an asset that is being translated into routing fees. For merchants, it is required to receive payments.
+
+[1]: https://wiki.ion.radar.tech/tech/research/submarine-swap
