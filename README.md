@@ -438,7 +438,7 @@ sudo apt-get install -y build-essential
 cd ~/
 git clone https://github.com/lightningnetwork/lnd.git
 cd lnd
-git checkout v0.12.1-beta
+git checkout v0.13.0-beta
 make && make install tags="autopilotrpc chainrpc invoicesrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc"
 mkdir ~/.lnd
 emacs ~/.lnd/lnd.conf
@@ -459,6 +459,9 @@ allow-circular-route=1
 
 # Public hex color
 color=#000000
+
+# Reduce the cooperative close chain fee
+coop-close-target-confs=1000
 
 # Log levels
 debuglevel=CNCT=debug,CRTR=debug,HSWC=debug,NTFN=debug,RPCS=debug
@@ -481,6 +484,9 @@ max-channel-fee-allocation=1.0
 
 # Set the max timeout blocks of a payment
 max-cltv-expiry=5000
+
+# Allow commitment fee to rise on anchor channels
+max-commit-fee-rate-anchors=100
 
 # Pending channel limit
 maxpendingchannels=10
