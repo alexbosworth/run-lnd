@@ -31,7 +31,7 @@ If on EC2:
 sudo chmod 600 ~/PATH_TO_PEM_FILE 
 ```
 
-Add an Elastic IP and associate it with the node
+[Add an Elastic IP] and associate it with the node
 
 Connect:
 
@@ -695,6 +695,7 @@ If you're using testnet, here are some faucets:
 - [Coinfaucet]
 - [YABTF]
 
+[Add an Elastic IP]: https://www.cloudbooklet.com/how-to-assign-an-elastic-ip-address-to-your-ec2-instance-in-aws/
 [Bitcoin Core auth script]: https://github.com/bitcoin/bitcoin/blob/master/share/rpcauth/rpcauth.py
 [Bitcoin Core data directory]: https://en.bitcoin.it/wiki/Data_directory
 [Coinfaucet]: https://coinfaucet.eu/en/btc-testnet/
