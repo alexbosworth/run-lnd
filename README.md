@@ -549,8 +549,6 @@ bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333
 protocol.wumbo-channels=1
 
 [routerrpc]
-# Make sure that LND is the binary release or built with the routerrpc tag
-
 # Set default chance of a hop success
 routerrpc.apriorihopprob=0.5
 
