@@ -6,7 +6,7 @@ Example commands are given from the perspective of running Ubuntu
 
 ## System Requirements
 
-- EC2: T3 Micro Instance or better
+- EC2: T4 Micro Instance or better
 - IP: A clear-net routing node should get a fairly static IP
 - OS: Ubuntu is pretty common, any OS
 - PORT: 9735 will be the standard P2P port, 10009 the standard gRPC port
