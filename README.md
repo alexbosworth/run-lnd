@@ -221,7 +221,7 @@ Setup directories on the Blockchain storage volume, and also create the
 [Bitcoin Core data directory] in order to setup the configuration file:
 
 ```shell
-mkdir /blockchain/.bitcoin && mkdir /blockchain/.bitcoin/data && mkdir ~/.bitcoin
+sudo mkdir -p /blockchain/.bitcoin/data && mkdir ~/.bitcoin
 ```
 
 Download and use the [Bitcoin Core auth script] to generate credentials:
