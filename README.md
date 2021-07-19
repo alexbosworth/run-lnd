@@ -401,6 +401,7 @@ sudo rm -rf /usr/local/go
 sudo apt-get update && sudo apt-get -y upgrade
 
 # Download Go
+# Note: rename 'amd64' to 'arm64' if on 64-bit ARM linux
 wget https://golang.org/dl/go1.16.5.linux-amd64.tar.gz
 
 # Extract it
