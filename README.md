@@ -600,7 +600,7 @@ neutrino.addpeer=testnet3-btcd.zaphq.io
 neutrino.addpeer=testnet4-btcd.zaphq.io
 
 # Set fee data URL, change to btc-fee-estimates.json if mainnet
-neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json
+feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json
 ```
 
 ```shell
