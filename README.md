@@ -469,6 +469,9 @@ debuglevel=CNCT=debug,CRTR=debug,HSWC=debug,NTFN=debug,RPCS=debug
 # Public P2P IP (remove this if using Tor)
 externalip=INSTANCE_IP
 
+# (Only for Neutrino): set fee data URL, change to btc-fee-estimates.json if mainnet
+feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json
+
 # Mark unpayable, unpaid invoices as deleted
 gc-canceled-invoices-on-startup=1
 gc-canceled-invoices-on-the-fly=1
@@ -569,8 +572,8 @@ routerrpc.minrtprob=0.005
 routerrpc.penaltyhalflife=6h0m0s
 
 [routing]
-# Set validation of channels off: only if using Neutrino
-routing.assumechanvalid=1
+# Remove channels from graph that have one side that hasn't made announcements
+routing.strictgraphpruning=1
 
 [tor]
 # Enable Tor if using
@@ -581,9 +584,6 @@ tor.v3=1
 If `bitcoin.node=neutrino` is set, add Neutrino options to lnd.conf:
 
 ```ini
-# Set fee data URL, change to btc-fee-estimates.json if mainnet
-feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json
-
 [neutrino]
 # Mainnet addpeers
 neutrino.addpeer=btcd-mainnet.lightning.computer
