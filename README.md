@@ -350,7 +350,7 @@ Add entry:
 
 ```
 # Start Bitcoin Core on boot
-@reboot bitcoind
+@reboot /usr/local/bin/bitcoind
 ```
 
 Create an easy link to the debug log of Bitcoin Core:
