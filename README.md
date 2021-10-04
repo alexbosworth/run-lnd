@@ -392,7 +392,7 @@ You can check if Go is installed and what version it is, and then install or upd
 
 ```shell
 go version
-# Should show Go version 1.16.5 or higher
+# Should show Go version 1.17.1 or higher
 
 # If an out of date Go is already installed
 sudo rm -rf /usr/local/go
@@ -401,13 +401,13 @@ sudo rm -rf /usr/local/go
 sudo apt-get update && sudo apt-get -y upgrade
 
 # Download Go
-wget https://golang.org/dl/go1.16.5.linux-amd64.tar.gz
+wget https://golang.org/dl/go1.17.1.linux-amd64.tar.gz
 
 # Extract it
-sudo tar -xvf go1.16.5.linux-amd64.tar.gz
+sudo tar -xvf go1.17.1.linux-amd64.tar.gz
 
 # Install it and remove the download
-sudo mv go /usr/local && rm go1.16.5.linux-amd64.tar.gz
+sudo mv go /usr/local && rm go1.17.1.linux-amd64.tar.gz
 
 # On a new install, make a directory for it
 mkdir ~/go
