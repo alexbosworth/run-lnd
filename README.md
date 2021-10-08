@@ -679,7 +679,7 @@ PATH="$HOME/.npm-global/bin:$PATH"
 . ~/.profile
 
 # Install balanceofsatoshis
-npm i -g balanceofsatoshis
+npm i -g balanceofsatoshis --no-audit
 ```
 
 ## Load Coins
