@@ -547,6 +547,10 @@ bitcoind.rpcuser=bitcoinrpc
 bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332
 bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333
 
+[bolt]
+# Enable database compaction when restarting
+db.bolt.auto-compact=true
+
 [protocol]
 # Enable large channels support
 protocol.wumbo-channels=1
