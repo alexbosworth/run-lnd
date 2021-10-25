@@ -469,9 +469,6 @@ debuglevel=CNCT=debug,CRTR=debug,HSWC=debug,NTFN=debug,RPCS=debug
 # Public P2P IP (remove this if using Tor)
 externalip=INSTANCE_IP
 
-# (Only for Neutrino): set fee data URL, change to btc-fee-estimates.json if mainnet
-feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json
-
 # Mark unpayable, unpaid invoices as deleted
 gc-canceled-invoices-on-startup=1
 gc-canceled-invoices-on-the-fly=1
@@ -595,6 +592,7 @@ neutrino.addpeer=mainnet1-btcd.zaphq.io
 neutrino.addpeer=mainnet2-btcd.zaphq.io
 neutrino.addpeer=mainnet3-btcd.zaphq.io
 neutrino.addpeer=mainnet4-btcd.zaphq.io
+neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btc-fee-estimates.json
 
 # Testnet addpeers
 neutrino.addpeer=btcd-testnet.ion.radar.tech
@@ -605,6 +603,7 @@ neutrino.addpeer=testnet1-btcd.zaphq.io
 neutrino.addpeer=testnet2-btcd.zaphq.io
 neutrino.addpeer=testnet3-btcd.zaphq.io
 neutrino.addpeer=testnet4-btcd.zaphq.io
+neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json
 ```
 
 ```shell
