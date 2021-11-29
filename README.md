@@ -12,12 +12,12 @@ Example commands are given from the perspective of running Ubuntu
 - PORT: 9735 will be the standard P2P port, 10009 the standard gRPC port
 - DISK: 25 GB+ (on AWS select the io2 storage and at least 200 IOPs)
 
-- *Note: EC2 will only give you 5 IPs per region*
-- *Note: When creating an EC2 instance you'll have to add rules to its security group that allow access to ports 9735 and 10009*
+- _Note: EC2 will only give you 5 IPs per region_
+- _Note: When creating an EC2 instance you'll have to add rules to its security group that allow access to ports 9735 and 10009_
 
 ### Disk:
 
-If using Bitcoin Core on mainnet, setup a disk that can host the entire 
+If using Bitcoin Core on mainnet, setup a disk that can host the entire
 Blockchain and transaction index: 600 GB. On AWS use gp3 disk type.
 
 If using Neutrino lite-mode a separate disk is not necessary.
@@ -28,7 +28,7 @@ If on EC2:
 
 ```shell
 # adjust privs on PEM file
-sudo chmod 600 ~/PATH_TO_PEM_FILE 
+sudo chmod 600 ~/PATH_TO_PEM_FILE
 ```
 
 [Add an Elastic IP] and associate it with the node
@@ -68,7 +68,7 @@ fs.file-max=512000
 sudo reboot
 ```
 
-If using an attached disk for the full Blockchain and it has not yet been initialized set it up as 
+If using an attached disk for the full Blockchain and it has not yet been initialized set it up as
 something like `/blockchain`
 
 ```shell
@@ -210,14 +210,14 @@ Installation:
 sudo apt install git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev libminiupnpc-dev libzmq3-dev
 git clone -b v22.0 https://github.com/bitcoin/bitcoin.git
 cd bitcoin/
-./autogen.sh 
+./autogen.sh
 ./configure CXXFLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768" --enable-cxx --with-zmq --without-gui --disable-shared --with-pic --disable-tests --disable-bench --enable-upnp-default --disable-wallet
 # This may take a while
 make -j "$(($(nproc)+1))"
 sudo make install
 ```
 
-Setup directories on the Blockchain storage volume, and also create the 
+Setup directories on the Blockchain storage volume, and also create the
 [Bitcoin Core data directory] in order to setup the configuration file:
 
 ```shell
@@ -233,7 +233,7 @@ python ./rpcauth.py bitcoinrpc
 # Save the password, this will be used for LND configuration
 ```
 
-Edit the configuration file. If you have an existing Bitcoin Core, use 
+Edit the configuration file. If you have an existing Bitcoin Core, use
 `getbestblockhash` to get the current chain tip hash.
 
 ```shell
@@ -512,6 +512,9 @@ tlsdisableautofill=1
 # Add DNS to the RPC TLS certificate
 tlsextradomain=YOUR_DOMAIN_NAME
 
+# The full path to a file (or pipe/device) that contains the password for unlocking the wallet
+wallet-unlock-password-file=/home/ubuntu/.lnd/wallet_password
+
 [Bitcoin]
 # Turn on Bitcoin mode
 bitcoin.active=1
@@ -637,13 +640,9 @@ ln -s ~/.lnd/logs/bitcoin/testnet/lnd.log ~/lnd-testnet.log
 crontab -e
 ```
 
-```
+````
 # Start LND on boot - or use systemd if you prefer: https://gist.github.com/alexbosworth/171958cc9888b7ebf3a91e5c23a57464
 @reboot nohup /home/ubuntu/go/bin/lnd > /dev/null 2> /home/ubuntu/.lnd/err.log &
-
-# Unlock wallet if locked
-*/5 * * * * /home/ubuntu/.npm-global/bin/bos unlock /home/ubuntu/.lnd/wallet_password
-```
 
 ```shell
 ## Connect the new node to some existing nodes to bootstrap the graph
@@ -658,7 +657,7 @@ lncli connect 03e50492eab4107a773141bb419e107bda3de3d55652e6e1a41225f06a0bbf2d56
 lncli openchannel 03c856d2dbec7454c48f311031f06bb99e3ca1ab15a9b9b35de14e139aa663b463 500000
 # mainnet
 lncli openchannel 03e50492eab4107a773141bb419e107bda3de3d55652e6e1a41225f06a0bbf2d56 5000000
-```
+````
 
 ## Install Balance of Satoshis
 
@@ -696,14 +695,14 @@ If you're using testnet, here are some faucets:
 - [Coinfaucet]
 - [YABTF]
 
-[Add an Elastic IP]: https://www.cloudbooklet.com/how-to-assign-an-elastic-ip-address-to-your-ec2-instance-in-aws/
-[Bitcoin Core auth script]: https://github.com/bitcoin/bitcoin/blob/master/share/rpcauth/rpcauth.py
-[Bitcoin Core data directory]: https://en.bitcoin.it/wiki/Data_directory
-[Coinfaucet]: https://coinfaucet.eu/en/btc-testnet/
-[Download Bitcoin Core]: https://bitcoincore.org/en/download/
-[Install Go]: https://golang.org/doc/install
-[Install LND]: https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md
-[Install Tor]: https://2019.www.torproject.org/docs/installguide.html.en
-[LND]: https://github.com/lightningnetwork/lnd
-[Node.js installation]: https://nodejs.org/en/download/package-manager/
-[YABTF]: https://testnet-faucet.mempool.co
+[add an elastic ip]: https://www.cloudbooklet.com/how-to-assign-an-elastic-ip-address-to-your-ec2-instance-in-aws/
+[bitcoin core auth script]: https://github.com/bitcoin/bitcoin/blob/master/share/rpcauth/rpcauth.py
+[bitcoin core data directory]: https://en.bitcoin.it/wiki/Data_directory
+[coinfaucet]: https://coinfaucet.eu/en/btc-testnet/
+[download bitcoin core]: https://bitcoincore.org/en/download/
+[install go]: https://golang.org/doc/install
+[install lnd]: https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md
+[install tor]: https://2019.www.torproject.org/docs/installguide.html.en
+[lnd]: https://github.com/lightningnetwork/lnd
+[node.js installation]: https://nodejs.org/en/download/package-manager/
+[yabtf]: https://testnet-faucet.mempool.co
