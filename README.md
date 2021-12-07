@@ -598,7 +598,6 @@ neutrino.addpeer=mainnet4-btcd.zaphq.io
 neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btc-fee-estimates.json
 
 # Testnet addpeers
-neutrino.addpeer=btcd-testnet.ion.radar.tech
 neutrino.addpeer=btcd-testnet.lightning.computer
 neutrino.addpeer=lnd.bitrefill.com:18333
 neutrino.addpeer=faucet.lightning.community
