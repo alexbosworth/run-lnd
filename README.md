@@ -439,7 +439,7 @@ cd ~/
 git clone https://github.com/lightningnetwork/lnd.git
 cd lnd
 git checkout v0.14.2-beta
-make && make install tags="autopilotrpc chainrpc invoicesrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc"
+make && make install tags="autopilotrpc chainrpc invoicesrpc peersrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc"
 mkdir ~/.lnd
 emacs ~/.lnd/lnd.conf
 ```
