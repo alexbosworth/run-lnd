@@ -534,6 +534,9 @@ bitcoin.minhtlc=1
 # Set backing node, bitcoin.node=neutrino or bitcoin.node=bitcoind
 bitcoin.node=bitcoind
 
+# Set CLTV forwarding delta time
+bitcoin.timelockdelta=144
+
 [bitcoind]
 # Configuration for using Bitcoin Core backend
 
