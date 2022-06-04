@@ -151,17 +151,25 @@ If you want to run your node behind Tor? [Install Tor].
 Instructions:
 
 ```shell
+# Make sure that your architecture is supported: only amd64, arm64, or i386 are supported
+dpkg --print-architecture
+
+# Install transport https package
 sudo apt-get update && sudo apt install -y apt-transport-https
+
+# Determine which codename you have
+lsb_release -c
 
 # Edit package sources for installation
 sudo emacs /etc/apt/sources.list.d/tor.list
 
-deb https://deb.torproject.org/torproject.org focal main
-deb-src https://deb.torproject.org/torproject.org focal main
+# Add the following lines to the file, replace <DISTRIBUTION> with the codename, ie: focal or jammy
+
+deb     [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org <DISTRIBUTION> main
+deb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org <DISTRIBUTION> main
 
 # Get the GPG key for Tor and add it to GPG
-sudo curl https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc | sudo gpg --import
-sudo gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
+sudo wget -qO- https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc | gpg --dearmor | sudo tee /usr/share/keyrings/tor-archive-keyring.gpg >/dev/null
 
 # Install the Tor package
 sudo apt update && sudo apt install -y tor deb.torproject.org-keyring
