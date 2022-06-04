@@ -521,7 +521,8 @@ tlsdisableautofill=1
 tlsextradomain=YOUR_DOMAIN_NAME
 
 # The full path to a file (or pipe/device) that contains the password for unlocking the wallet
-wallet-unlock-password-file=/home/ubuntu/.lnd/wallet_password
+# Add this to the config file after you have created a wallet
+# wallet-unlock-password-file=/home/ubuntu/.lnd/wallet_password
 
 [Bitcoin]
 # Turn on Bitcoin mode
