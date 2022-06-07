@@ -620,6 +620,17 @@ neutrino.addpeer=testnet4-btcd.zaphq.io
 neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json
 ```
 
+Create wallet password
+
+```shell
+openssl rand -hex 21 > ~/.lnd/wallet_password
+
+cat ~/.lnd/wallet_password
+# Copy this password
+```
+
+Start LND
+
 ```shell
 # Start LND with nohup for non-interactive operation
 # Alternatively: use systemd https://gist.github.com/alexbosworth/171958cc9888b7ebf3a91e5c23a57464
@@ -629,11 +640,6 @@ nohup /home/ubuntu/go/bin/lnd > /dev/null 2> /home/ubuntu/.lnd/err.log &
 Setup LND
 
 ```shell
-openssl rand -hex 21 > ~/.lnd/wallet_password
-
-cat ~/.lnd/wallet_password
-# Copy this password
-
 lncli create
 # Follow prompts, use the wallet password as the initial password and set no cipher seed password
 ```
