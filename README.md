@@ -310,30 +310,6 @@ Using Tor? Add additional lines:
 
 ```ini
 # put under [main] section
-# Some mainnet peers
-addnode=gyn2vguc35viks2b.onion
-addnode=kvd44sw7skb5folw.onion
-addnode=nkf5e6b7pl4jfd4a.onion
-addnode=yu7sezmixhmyljn4.onion
-addnode=3ffk7iumtx3cegbi.onion
-addnode=3nmbbakinewlgdln.onion
-addnode=4j77gihpokxu2kj4.onion
-addnode=546esc6botbjfbxb.onion
-addnode=5at7sq5nm76xijkd.onion
-addnode=77mx2jsxaoyesz2p.onion
-addnode=7g7j54btiaxhtsiy.onion
-addnode=a6obdgzn67l7exu3.onion
-addnode=ab64h7olpl7qpxci.onion
-addnode=am2a4rahltfuxz6l.onion
-addnode=azuxls4ihrr2mep7.onion
-addnode=bitcoin7bi4op7wb.onion
-addnode=bitcoinostk4e4re.onion
-addnode=bk7yp6epnmcllq72.onion
-addnode=bmutjfrj5btseddb.onion
-addnode=ceeji4qpfs3ms3zc.onion
-addnode=clexmzqio7yhdao4.onion
-addnode=gb5ypqt63du3wfhn.onion
-addnode=h2vlpudzphzqxutd.onion
 
 # Only use Tor
 onlynet=onion
@@ -400,7 +376,7 @@ You can check if Go is installed and what version it is, and then install or upd
 
 ```shell
 go version
-# Should show Go version 1.17.5 or higher
+# Should show Go version 1.18.3 or higher
 
 # If an out of date Go is already installed
 sudo rm -rf /usr/local/go
@@ -409,13 +385,13 @@ sudo rm -rf /usr/local/go
 sudo apt-get update && sudo apt-get -y upgrade
 
 # Download Go (switch from amd64 to arm64 if using arm)
-wget https://golang.org/dl/go1.17.5.linux-amd64.tar.gz
+wget https://golang.org/dl/go1.18.3.linux-amd64.tar.gz
 
 # Extract it
-sudo tar -xvf go1.17.5.linux-amd64.tar.gz
+sudo tar -xvf go1.18.3.linux-amd64.tar.gz
 
 # Install it and remove the download
-sudo mv go /usr/local && rm go1.17.5.linux-amd64.tar.gz
+sudo mv go /usr/local && rm go1.18.3.linux-amd64.tar.gz
 
 # On a new install, make a directory for it
 mkdir ~/go
@@ -446,7 +422,7 @@ sudo apt-get install -y build-essential
 cd ~/
 git clone https://github.com/lightningnetwork/lnd.git
 cd lnd
-git checkout v0.14.3-beta
+git checkout v0.15.0-beta
 make && make install tags="autopilotrpc chainrpc invoicesrpc peersrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc"
 mkdir ~/.lnd
 emacs ~/.lnd/lnd.conf
@@ -504,9 +480,6 @@ minchansize=5000000
 
 # gRPC socket binding
 rpclisten=0.0.0.0:10009
-
-# Avoid slow startup time
-sync-freelist=1
 
 # Avoid high startup overhead
 stagger-initial-reconnect=1
