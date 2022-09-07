@@ -4,6 +4,17 @@ Notes on setting up and running [LND] instances.
 
 Example commands are given from the perspective of running Ubuntu
 
+## Contents
+1. [System Requirements](https://github.com/alexbosworth/run-lnd/blob/master/README.md#system-requirements)
+2. [Initial Setup](https://github.com/alexbosworth/run-lnd/blob/master/README.md#initial-setup)
+3. [Access Control](https://github.com/alexbosworth/run-lnd/blob/master/README.md#access-control)
+4. [Using Tor](https://github.com/alexbosworth/run-lnd/blob/master/README.md#using-tor)
+5. [Install Bitcoin Core](https://github.com/alexbosworth/run-lnd/blob/master/README.md#install-bitcoin-core)
+6. [Install Go](https://github.com/alexbosworth/run-lnd/blob/master/README.md#install-go)
+7. [Install LND](https://github.com/alexbosworth/run-lnd/blob/master/README.md#install-lnd)
+8. [Install Balance of Satoshis](https://github.com/alexbosworth/run-lnd/blob/master/README.md#install-balance-of-satoshis)
+9. [Load Coins](https://github.com/alexbosworth/run-lnd/blob/master/README.md#load-coins)
+
 ## System Requirements
 
 - EC2: T4 Micro Instance or better
