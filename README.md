@@ -228,7 +228,7 @@ Installation:
 
 ```
 sudo apt install git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev libminiupnpc-dev libzmq3-dev
-git clone -b v22.0 https://github.com/bitcoin/bitcoin.git
+git clone -b v24.0 https://github.com/bitcoin/bitcoin.git
 cd bitcoin/
 ./autogen.sh
 ./configure CXXFLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768" --enable-cxx --with-zmq --without-gui --disable-shared --with-pic --disable-tests --disable-bench --enable-upnp-default --disable-wallet
