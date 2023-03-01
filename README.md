@@ -552,6 +552,9 @@ db.bolt.auto-compact=true
 # Enable large channels support
 protocol.wumbo-channels=1
 
+# Enable channel id hiding
+protocol.option-scid-alias=true
+
 [routerrpc]
 # Set default chance of a hop success
 routerrpc.apriorihopprob=0.5
