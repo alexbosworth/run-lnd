@@ -434,7 +434,7 @@ sudo apt-get install -y build-essential
 cd ~/
 git clone https://github.com/lightningnetwork/lnd.git
 cd lnd
-git checkout v0.15.5-beta
+git checkout v0.16.0-beta.rc5
 make && make install tags="autopilotrpc chainkit chainrpc invoicesrpc peersrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc"
 mkdir ~/.lnd
 emacs ~/.lnd/lnd.conf
@@ -557,10 +557,10 @@ protocol.option-scid-alias=true
 
 [routerrpc]
 # Set default chance of a hop success
-routerrpc.apriorihopprob=0.5
+routerrpc.apriori.hopprob=0.5
 
 # Start to ignore nodes if they return many failures (set to 1 to turn off)
-routerrpc.aprioriweight=0.75
+routerrpc.apriori.weight=0.75
 
 # Set minimum desired savings of trying a cheaper path
 routerrpc.attemptcost=10
@@ -573,7 +573,7 @@ routerrpc.maxmchistory=10000
 routerrpc.minrtprob=0.005
 
 # Set the time to forget past routing failures
-routerrpc.penaltyhalflife=6h0m0s
+routerrpc.apriori.penaltyhalflife=6h0m0s
 
 [routing]
 # Remove channels from graph that have one side that hasn't made announcements
