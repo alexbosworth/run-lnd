@@ -548,6 +548,10 @@ bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333
 # Enable database compaction when restarting
 db.bolt.auto-compact=true
 
+[db]
+# Avoid watchtower specific data storage
+db.no-rev-log-amt-data=true
+
 [protocol]
 # Enable large channels support
 protocol.wumbo-channels=1
