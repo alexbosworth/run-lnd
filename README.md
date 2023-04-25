@@ -434,7 +434,7 @@ sudo apt-get install -y build-essential
 cd ~/
 git clone https://github.com/lightningnetwork/lnd.git
 cd lnd
-git checkout v0.16.0-beta
+git checkout v0.16.1-beta
 make && make install tags="autopilotrpc chainrpc invoicesrpc peersrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc"
 mkdir ~/.lnd
 emacs ~/.lnd/lnd.conf
