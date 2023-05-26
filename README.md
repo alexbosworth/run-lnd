@@ -4,6 +4,18 @@ Notes on setting up and running [LND] instances.
 
 Example commands are given from the perspective of running Ubuntu
 
+## Contents
+
+1. [System Requirements](https://github.com/alexbosworth/run-lnd#system-requirements)
+2. [Initial Setup](https://github.com/alexbosworth/run-lnd#initial-setup)
+3. [Access Control](https://github.com/alexbosworth/run-lnd#access-control)
+4. [Using Tor](https://github.com/alexbosworth/run-lnd#using-tor)
+5. [Install Bitcoin Core](https://github.com/alexbosworth/run-lnd#install-bitcoin-core)
+6. [Install Go](https://github.com/alexbosworth/run-lnd#install-go)
+7. [Install LND](https://github.com/alexbosworth/run-lnd#install-lnd)
+8. [Install Balance of Satoshis](https://github.com/alexbosworth/run-lnd#install-balance-of-satoshis)
+9. [Load Coins](https://github.com/alexbosworth/run-lnd#load-coins)
+
 ## System Requirements
 
 - EC2: T4 Micro Instance or better
@@ -12,13 +24,13 @@ Example commands are given from the perspective of running Ubuntu
 - PORT: 9735 will be the standard P2P port, 10009 the standard gRPC port
 - DISK: 25 GB+ (on AWS select the io2 storage and at least 200 IOPs)
 
-- *Note: EC2 will only give you 5 IPs per region*
-- *Note: When creating an EC2 instance you'll have to add rules to its security group that allow access to ports 9735 and 10009*
+- _Note: EC2 will only give you 5 IPs per region_
+- _Note: When creating an EC2 instance you'll have to add rules to its security group that allow access to ports 9735 and 10009_
 
 ### Disk:
 
-If using Bitcoin Core on mainnet, setup a disk that can host the entire 
-Blockchain and transaction index: 500 GB.
+If using Bitcoin Core on mainnet, setup a disk that can host the entire
+Blockchain and transaction index: 700 GB. On AWS use gp3 disk type.
 
 If using Neutrino lite-mode a separate disk is not necessary.
 
@@ -28,7 +40,7 @@ If on EC2:
 
 ```shell
 # adjust privs on PEM file
-sudo chmod 600 ~/PATH_TO_PEM_FILE 
+sudo chmod 600 ~/PATH_TO_PEM_FILE
 ```
 
 [Add an Elastic IP] and associate it with the node
@@ -68,7 +80,7 @@ fs.file-max=512000
 sudo reboot
 ```
 
-If using an attached disk for the full Blockchain and it has not yet been initialized set it up as 
+If using an attached disk for the full Blockchain and it has not yet been initialized set it up as
 something like `/blockchain`
 
 ```shell
@@ -151,17 +163,25 @@ If you want to run your node behind Tor? [Install Tor].
 Instructions:
 
 ```shell
+# Make sure that your architecture is supported: only amd64, arm64, or i386 are supported
+dpkg --print-architecture
+
+# Install transport https package
 sudo apt-get update && sudo apt install -y apt-transport-https
+
+# Determine which codename you have
+lsb_release -c
 
 # Edit package sources for installation
 sudo emacs /etc/apt/sources.list.d/tor.list
 
-deb https://deb.torproject.org/torproject.org focal main
-deb-src https://deb.torproject.org/torproject.org focal main
+# Add the following lines to the file, replace <DISTRIBUTION> with the codename, ie: focal or jammy
+
+deb     [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org <DISTRIBUTION> main
+deb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org <DISTRIBUTION> main
 
 # Get the GPG key for Tor and add it to GPG
-sudo curl https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc | sudo gpg --import
-sudo gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
+sudo wget -qO- https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc | gpg --dearmor | sudo tee /usr/share/keyrings/tor-archive-keyring.gpg >/dev/null
 
 # Install the Tor package
 sudo apt update && sudo apt install -y tor deb.torproject.org-keyring
@@ -208,16 +228,16 @@ Installation:
 
 ```
 sudo apt install git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev libminiupnpc-dev libzmq3-dev
-git clone -b v0.21.0 https://github.com/bitcoin/bitcoin.git
+git clone -b v25.0 https://github.com/bitcoin/bitcoin.git
 cd bitcoin/
-./autogen.sh 
+./autogen.sh
 ./configure CXXFLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768" --enable-cxx --with-zmq --without-gui --disable-shared --with-pic --disable-tests --disable-bench --enable-upnp-default --disable-wallet
 # This may take a while
 make -j "$(($(nproc)+1))"
 sudo make install
 ```
 
-Setup directories on the Blockchain storage volume, and also create the 
+Setup directories on the Blockchain storage volume, and also create the
 [Bitcoin Core data directory] in order to setup the configuration file:
 
 ```shell
@@ -233,7 +253,7 @@ python ./rpcauth.py bitcoinrpc
 # Save the password, this will be used for LND configuration
 ```
 
-Edit the configuration file. If you have an existing Bitcoin Core, use 
+Edit the configuration file. If you have an existing Bitcoin Core, use
 `getbestblockhash` to get the current chain tip hash.
 
 ```shell
@@ -302,30 +322,6 @@ Using Tor? Add additional lines:
 
 ```ini
 # put under [main] section
-# Some mainnet peers
-addnode=gyn2vguc35viks2b.onion
-addnode=kvd44sw7skb5folw.onion
-addnode=nkf5e6b7pl4jfd4a.onion
-addnode=yu7sezmixhmyljn4.onion
-addnode=3ffk7iumtx3cegbi.onion
-addnode=3nmbbakinewlgdln.onion
-addnode=4j77gihpokxu2kj4.onion
-addnode=546esc6botbjfbxb.onion
-addnode=5at7sq5nm76xijkd.onion
-addnode=77mx2jsxaoyesz2p.onion
-addnode=7g7j54btiaxhtsiy.onion
-addnode=a6obdgzn67l7exu3.onion
-addnode=ab64h7olpl7qpxci.onion
-addnode=am2a4rahltfuxz6l.onion
-addnode=azuxls4ihrr2mep7.onion
-addnode=bitcoin7bi4op7wb.onion
-addnode=bitcoinostk4e4re.onion
-addnode=bk7yp6epnmcllq72.onion
-addnode=bmutjfrj5btseddb.onion
-addnode=ceeji4qpfs3ms3zc.onion
-addnode=clexmzqio7yhdao4.onion
-addnode=gb5ypqt63du3wfhn.onion
-addnode=h2vlpudzphzqxutd.onion
 
 # Only use Tor
 onlynet=onion
@@ -350,7 +346,7 @@ Add entry:
 
 ```
 # Start Bitcoin Core on boot
-@reboot bitcoind
+@reboot /usr/local/bin/bitcoind
 ```
 
 Create an easy link to the debug log of Bitcoin Core:
@@ -392,7 +388,7 @@ You can check if Go is installed and what version it is, and then install or upd
 
 ```shell
 go version
-# Should show Go version 1.16.5 or higher
+# Should show Go version 1.20.2
 
 # If an out of date Go is already installed
 sudo rm -rf /usr/local/go
@@ -400,15 +396,14 @@ sudo rm -rf /usr/local/go
 # If installing Go for the first time
 sudo apt-get update && sudo apt-get -y upgrade
 
-# Download Go
-# Note: rename 'amd64' to 'arm64' if on 64-bit ARM linux
-wget https://golang.org/dl/go1.16.5.linux-amd64.tar.gz
+# Download Go (switch from amd64 to arm64 if using arm)
+wget https://golang.org/dl/go1.20.2.linux-amd64.tar.gz
 
 # Extract it
-sudo tar -xvf go1.16.5.linux-amd64.tar.gz
+sudo tar -xvf go1.20.2.linux-amd64.tar.gz
 
 # Install it and remove the download
-sudo mv go /usr/local && rm go1.16.5.linux-amd64.tar.gz
+sudo mv go /usr/local && rm go1.20.2.linux-amd64.tar.gz
 
 # On a new install, make a directory for it
 mkdir ~/go
@@ -439,8 +434,8 @@ sudo apt-get install -y build-essential
 cd ~/
 git clone https://github.com/lightningnetwork/lnd.git
 cd lnd
-git checkout v0.13.1-beta
-make && make install tags="autopilotrpc chainrpc invoicesrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc"
+git checkout v0.16.1-beta
+make && make install tags="autopilotrpc chainrpc invoicesrpc peersrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc"
 mkdir ~/.lnd
 emacs ~/.lnd/lnd.conf
 ```
@@ -498,9 +493,6 @@ minchansize=5000000
 # gRPC socket binding
 rpclisten=0.0.0.0:10009
 
-# Avoid slow startup time
-sync-freelist=1
-
 # Avoid high startup overhead
 stagger-initial-reconnect=1
 
@@ -512,6 +504,10 @@ tlsdisableautofill=1
 
 # Add DNS to the RPC TLS certificate
 tlsextradomain=YOUR_DOMAIN_NAME
+
+# The full path to a file (or pipe/device) that contains the password for unlocking the wallet
+# Add this to the config file after you have created a wallet
+# wallet-unlock-password-file=/home/ubuntu/.lnd/wallet_password
 
 [Bitcoin]
 # Turn on Bitcoin mode
@@ -532,6 +528,9 @@ bitcoin.minhtlc=1
 # Set backing node, bitcoin.node=neutrino or bitcoin.node=bitcoind
 bitcoin.node=bitcoind
 
+# Set CLTV forwarding delta time
+bitcoin.timelockdelta=144
+
 [bitcoind]
 # Configuration for using Bitcoin Core backend
 
@@ -545,16 +544,27 @@ bitcoind.rpcuser=bitcoinrpc
 bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332
 bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333
 
+[bolt]
+# Enable database compaction when restarting
+db.bolt.auto-compact=true
+
+[db]
+# Avoid watchtower specific data storage
+db.no-rev-log-amt-data=true
+
 [protocol]
 # Enable large channels support
 protocol.wumbo-channels=1
 
+# Enable channel id hiding
+protocol.option-scid-alias=true
+
 [routerrpc]
 # Set default chance of a hop success
-routerrpc.apriorihopprob=0.5
+routerrpc.apriori.hopprob=0.5
 
 # Start to ignore nodes if they return many failures (set to 1 to turn off)
-routerrpc.aprioriweight=0.75
+routerrpc.apriori.weight=0.75
 
 # Set minimum desired savings of trying a cheaper path
 routerrpc.attemptcost=10
@@ -567,11 +577,11 @@ routerrpc.maxmchistory=10000
 routerrpc.minrtprob=0.005
 
 # Set the time to forget past routing failures
-routerrpc.penaltyhalflife=6h0m0s
+routerrpc.apriori.penaltyhalflife=6h0m0s
 
 [routing]
-# Set validation of channels off: only if using Neutrino
-routing.assumechanvalid=1
+# Remove channels from graph that have one side that hasn't made announcements
+routing.strictgraphpruning=1
 
 [tor]
 # Enable Tor if using
@@ -589,9 +599,9 @@ neutrino.addpeer=mainnet1-btcd.zaphq.io
 neutrino.addpeer=mainnet2-btcd.zaphq.io
 neutrino.addpeer=mainnet3-btcd.zaphq.io
 neutrino.addpeer=mainnet4-btcd.zaphq.io
+neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btc-fee-estimates.json
 
 # Testnet addpeers
-neutrino.addpeer=btcd-testnet.ion.radar.tech
 neutrino.addpeer=btcd-testnet.lightning.computer
 neutrino.addpeer=lnd.bitrefill.com:18333
 neutrino.addpeer=faucet.lightning.community
@@ -599,10 +609,19 @@ neutrino.addpeer=testnet1-btcd.zaphq.io
 neutrino.addpeer=testnet2-btcd.zaphq.io
 neutrino.addpeer=testnet3-btcd.zaphq.io
 neutrino.addpeer=testnet4-btcd.zaphq.io
-
-# Set fee data URL, change to btc-fee-estimates.json if mainnet
 neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json
 ```
+
+Create wallet password
+
+```shell
+openssl rand -hex 21 > ~/.lnd/wallet_password
+
+cat ~/.lnd/wallet_password
+# Copy this password
+```
+
+Start LND
 
 ```shell
 # Start LND with nohup for non-interactive operation
@@ -613,11 +632,6 @@ nohup /home/ubuntu/go/bin/lnd > /dev/null 2> /home/ubuntu/.lnd/err.log &
 Setup LND
 
 ```shell
-openssl rand -hex 21 > ~/.lnd/wallet_password
-
-cat ~/.lnd/wallet_password
-# Copy this password
-
 lncli create
 # Follow prompts, use the wallet password as the initial password and set no cipher seed password
 ```
@@ -635,13 +649,10 @@ ln -s ~/.lnd/logs/bitcoin/testnet/lnd.log ~/lnd-testnet.log
 crontab -e
 ```
 
-```
+````
 # Start LND on boot - or use systemd if you prefer: https://gist.github.com/alexbosworth/171958cc9888b7ebf3a91e5c23a57464
 @reboot nohup /home/ubuntu/go/bin/lnd > /dev/null 2> /home/ubuntu/.lnd/err.log &
-
-# Unlock wallet if locked
-*/5 * * * * /home/ubuntu/.npm-global/bin/bos unlock /home/ubuntu/.lnd/wallet_password
-```
+````
 
 ```shell
 ## Connect the new node to some existing nodes to bootstrap the graph
@@ -656,7 +667,7 @@ lncli connect 03e50492eab4107a773141bb419e107bda3de3d55652e6e1a41225f06a0bbf2d56
 lncli openchannel 03c856d2dbec7454c48f311031f06bb99e3ca1ab15a9b9b35de14e139aa663b463 500000
 # mainnet
 lncli openchannel 03e50492eab4107a773141bb419e107bda3de3d55652e6e1a41225f06a0bbf2d56 5000000
-```
+````
 
 ## Install Balance of Satoshis
 
@@ -694,14 +705,14 @@ If you're using testnet, here are some faucets:
 - [Coinfaucet]
 - [YABTF]
 
-[Add an Elastic IP]: https://www.cloudbooklet.com/how-to-assign-an-elastic-ip-address-to-your-ec2-instance-in-aws/
-[Bitcoin Core auth script]: https://github.com/bitcoin/bitcoin/blob/master/share/rpcauth/rpcauth.py
-[Bitcoin Core data directory]: https://en.bitcoin.it/wiki/Data_directory
-[Coinfaucet]: https://coinfaucet.eu/en/btc-testnet/
-[Download Bitcoin Core]: https://bitcoincore.org/en/download/
-[Install Go]: https://golang.org/doc/install
-[Install LND]: https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md
-[Install Tor]: https://2019.www.torproject.org/docs/installguide.html.en
-[LND]: https://github.com/lightningnetwork/lnd
-[Node.js installation]: https://nodejs.org/en/download/package-manager/
-[YABTF]: https://testnet-faucet.mempool.co
+[add an elastic ip]: https://www.cloudbooklet.com/how-to-assign-an-elastic-ip-address-to-your-ec2-instance-in-aws/
+[bitcoin core auth script]: https://github.com/bitcoin/bitcoin/blob/master/share/rpcauth/rpcauth.py
+[bitcoin core data directory]: https://en.bitcoin.it/wiki/Data_directory
+[coinfaucet]: https://coinfaucet.eu/en/btc-testnet/
+[download bitcoin core]: https://bitcoincore.org/en/download/
+[install go]: https://golang.org/doc/install
+[install lnd]: https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md
+[install tor]: https://2019.www.torproject.org/docs/installguide.html.en
+[lnd]: https://github.com/lightningnetwork/lnd
+[node.js installation]: https://nodejs.org/en/download/package-manager/
+[yabtf]: https://testnet-faucet.mempool.co

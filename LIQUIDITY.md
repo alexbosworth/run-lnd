@@ -32,7 +32,7 @@ Of course, you can also use the Lightning Network payment channels for a non-net
 
 The outbound liquidity of your Lightning node is not just the balance of your channels, it is the balance of your channels modified by the ability of your peers to forward to the greater Lightning Network.
 
-That forwarding ability is a constantly changing but invisible factor, so you can only get a general sense of it when you are sending and more generally you'll need to reply on a rough reputational equation where you assume some nodes have a high probability of being able to forward your payments at any given time.
+That forwarding ability is a constantly changing but invisible factor, so you can only get a general sense of it when you are sending and more generally you'll need to rely on a rough reputational equation where you assume some nodes have a high probability of being able to forward your payments at any given time.
 
 Increasing your outbound liquidity means increasing the local balance of good liquidity channels:
 
