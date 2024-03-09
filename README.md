@@ -30,7 +30,7 @@ Example commands are given from the perspective of running Ubuntu
 ### Disk:
 
 If using Bitcoin Core on mainnet, setup a disk that can host the entire
-Blockchain and transaction index: 700 GB. On AWS use gp3 disk type.
+Blockchain and transaction index: 800 GB. On AWS use gp3 disk type.
 
 If using Neutrino lite-mode a separate disk is not necessary.
 
@@ -388,7 +388,7 @@ You can check if Go is installed and what version it is, and then install or upd
 
 ```shell
 go version
-# Should show Go version 1.21.3
+# Should show Go version 1.22.1
 
 # If an out of date Go is already installed
 sudo rm -rf /usr/local/go
@@ -397,13 +397,13 @@ sudo rm -rf /usr/local/go
 sudo apt-get update && sudo apt-get -y upgrade
 
 # Download Go (switch from amd64 to arm64 if using arm)
-wget https://golang.org/dl/go1.21.3.linux-amd64.tar.gz
+wget https://golang.org/dl/go1.22.1.linux-amd64.tar.gz
 
 # Extract it
-sudo tar -xvf go1.21.3.linux-amd64.tar.gz
+sudo tar -xvf go1.22.1.linux-amd64.tar.gz
 
 # Install it and remove the download
-sudo mv go /usr/local && rm go1.21.3.linux-amd64.tar.gz
+sudo mv go /usr/local && rm go1.22.1.linux-amd64.tar.gz
 
 # On a new install, make a directory for it
 mkdir ~/go
@@ -434,7 +434,7 @@ sudo apt-get install -y build-essential
 cd ~/
 git clone https://github.com/lightningnetwork/lnd.git
 cd lnd
-git checkout v0.17.1-beta
+git checkout v0.17.4-beta
 make && make install tags="autopilotrpc chainrpc invoicesrpc peersrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc"
 mkdir ~/.lnd
 emacs ~/.lnd/lnd.conf
