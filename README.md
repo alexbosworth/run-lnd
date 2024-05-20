@@ -466,7 +466,6 @@ debuglevel=CNCT=debug,CRTR=debug,HSWC=debug,NTFN=debug,RPCS=debug
 externalip=INSTANCE_IP
 
 # Mark unpayable, unpaid invoices as deleted
-gc-canceled-invoices-on-startup=1
 gc-canceled-invoices-on-the-fly=1
 
 # Avoid historical graph data sync
