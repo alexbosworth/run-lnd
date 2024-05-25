@@ -603,10 +603,6 @@ neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btc-fee-estimates.json
 neutrino.addpeer=btcd-testnet.lightning.computer
 neutrino.addpeer=lnd.bitrefill.com:18333
 neutrino.addpeer=faucet.lightning.community
-neutrino.addpeer=testnet1-btcd.zaphq.io
-neutrino.addpeer=testnet2-btcd.zaphq.io
-neutrino.addpeer=testnet3-btcd.zaphq.io
-neutrino.addpeer=testnet4-btcd.zaphq.io
 neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json
 ```
 
