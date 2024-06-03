@@ -390,6 +390,9 @@ You can check if Go is installed and what version it is, and then install or upd
 go version
 # Should show Go version 1.22.3
 
+dpkg --print-architecture
+# Tells you what architecture you will need
+
 # If an out of date Go is already installed
 sudo rm -rf /usr/local/go
 
