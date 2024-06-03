@@ -434,7 +434,7 @@ sudo apt-get install -y build-essential
 cd ~/
 git clone https://github.com/lightningnetwork/lnd.git
 cd lnd
-git checkout v0.17.5-beta
+git checkout v0.18.0-beta
 make && make install tags="autopilotrpc chainrpc invoicesrpc peersrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc"
 mkdir ~/.lnd
 emacs ~/.lnd/lnd.conf
@@ -597,13 +597,20 @@ neutrino.addpeer=btcd-mainnet.lightning.computer
 neutrino.addpeer=neutrino.noderunner.wtf
 neutrino.addpeer=node.eldamar.icu
 neutrino.addpeer=btcd.lnolymp.us
-neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btc-fee-estimates.json
 
+[fee]
+fee.url=https://nodes.lightning.computer/fees/v1/btc-fee-estimates.json
+```
+
+```ini
+[neutrino]
 # Testnet addpeers
 neutrino.addpeer=btcd-testnet.lightning.computer
 neutrino.addpeer=lnd.bitrefill.com:18333
 neutrino.addpeer=faucet.lightning.community
-neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json
+
+[fee]
+fee.url=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json
 ```
 
 Create wallet password
