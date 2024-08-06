@@ -388,7 +388,7 @@ You can check if Go is installed and what version it is, and then install or upd
 
 ```shell
 go version
-# Should show Go version 1.22.3
+# Should show Go version 1.22.6
 
 dpkg --print-architecture
 # Tells you what architecture you will need
@@ -400,13 +400,13 @@ sudo rm -rf /usr/local/go
 sudo apt-get update && sudo apt-get -y upgrade
 
 # Download Go (switch from amd64 to arm64 if using arm)
-wget https://golang.org/dl/go1.22.3.linux-amd64.tar.gz
+wget https://golang.org/dl/go1.22.6.linux-amd64.tar.gz
 
 # Extract it
-sudo tar -xvf go1.22.3.linux-amd64.tar.gz
+sudo tar -xvf go1.22.6.linux-amd64.tar.gz
 
 # Install it and remove the download
-sudo mv go /usr/local && rm go1.22.3.linux-amd64.tar.gz
+sudo mv go /usr/local && rm go1.22.6.linux-amd64.tar.gz
 
 # On a new install, make a directory for it
 mkdir ~/go
@@ -437,7 +437,7 @@ sudo apt-get install -y build-essential
 cd ~/
 git clone https://github.com/lightningnetwork/lnd.git
 cd lnd
-git checkout v0.18.0-beta
+git checkout v0.18.2-beta
 make && make install tags="autopilotrpc chainrpc invoicesrpc peersrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc"
 mkdir ~/.lnd
 emacs ~/.lnd/lnd.conf
