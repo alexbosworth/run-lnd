@@ -30,7 +30,7 @@ Example commands are given from the perspective of running Ubuntu
 ### Disk:
 
 If using Bitcoin Core on mainnet, setup a disk that can host the entire
-Blockchain and transaction index: 800 GB. On AWS use gp3 disk type.
+Blockchain and transaction index: 900 GB. On AWS use gp3 disk type.
 
 If using Neutrino lite-mode a separate disk is not necessary.
 
