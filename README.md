@@ -492,6 +492,9 @@ maxpendingchannels=10
 # Min inbound channel limit
 minchansize=5000000
 
+# Do not archive backups      
+no-backup-archive=true
+
 # gRPC socket binding
 rpclisten=0.0.0.0:10009
 
