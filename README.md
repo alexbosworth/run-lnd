@@ -227,15 +227,18 @@ Using Bitcoin Core as a chain backend? [Download Bitcoin Core].
 Installation:
 
 ```
-sudo apt install git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev libminiupnpc-dev libzmq3-dev
-git clone -b v28.0 https://github.com/bitcoin/bitcoin.git
+sudo apt-get install build-essential cmake pkgconf python3 libevent-dev libboost-dev libcapnp-dev capnproto libzmq3-dev systemtap-sdt-dev
+git clone -b v30.0 https://github.com/bitcoin/bitcoin.git
 cd bitcoin/
-./autogen.sh
-./configure CXXFLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768" --enable-cxx --with-zmq --without-gui --disable-shared --with-pic --disable-tests --disable-bench --enable-upnp-default --disable-wallet
+cmake -B build -DWITH_ZMQ=ON -DENABLE_WALLET=OFF -DBUILD_GUI=OFF -DWITH_QRENCODE=OFF -DBUILD_TESTS=OFF
 # This may take a while
-make -j "$(($(nproc)+1))"
-sudo make install
+cmake --build build -j "$(nproc)"
+sudo cmake --install build
 ```
+
+On systems with limited memory add
+`-DCMAKE_CXX_FLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768"`
+to the `cmake -B build …` command.
 
 Setup directories on the Blockchain storage volume, and also create the
 [Bitcoin Core data directory] in order to setup the configuration file:
@@ -388,7 +391,7 @@ You can check if Go is installed and what version it is, and then install or upd
 
 ```shell
 go version
-# Should show Go version 1.24.5
+# Should show Go version 1.25.4
 
 dpkg --print-architecture
 # Tells you what architecture you will need
@@ -400,13 +403,13 @@ sudo rm -rf /usr/local/go
 sudo apt-get update && sudo apt-get -y upgrade
 
 # Download Go (switch from amd64 to arm64 if using arm)
-wget https://golang.org/dl/go1.24.5.linux-amd64.tar.gz
+wget https://golang.org/dl/go1.25.4.linux-amd64.tar.gz
 
 # Extract it
-sudo tar -xvf go1.24.5.linux-amd64.tar.gz
+sudo tar -xvf go1.25.4.linux-amd64.tar.gz
 
 # Install it and remove the download
-sudo mv go /usr/local && rm go1.24.5.linux-amd64.tar.gz
+sudo mv go /usr/local && rm go1.25.4.linux-amd64.tar.gz
 
 # On a new install, make a directory for it
 mkdir ~/go
@@ -437,7 +440,7 @@ sudo apt-get install -y build-essential
 cd ~/
 git clone https://github.com/lightningnetwork/lnd.git
 cd lnd
-git checkout v0.19.3-beta
+git checkout v0.20.0-beta
 make && make install tags="autopilotrpc chainrpc invoicesrpc peersrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc"
 mkdir ~/.lnd
 emacs ~/.lnd/lnd.conf
@@ -515,9 +518,6 @@ tlsextradomain=YOUR_DOMAIN_NAME
 # wallet-unlock-password-file=/home/ubuntu/.lnd/wallet_password
 
 [Bitcoin]
-# Turn on Bitcoin mode
-bitcoin.active=1
-
 # Set the channel confs to wait for channels
 bitcoin.defaultchanconfs=2
 
@@ -570,6 +570,9 @@ protocol.wumbo-channels=1
 
 # Enable channel id hiding
 protocol.option-scid-alias=true
+
+# Enable RBF based coop close
+protocol.rbf-coop-close=true
 
 [routerrpc]
 # Set default chance of a hop success
