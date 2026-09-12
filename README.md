@@ -409,6 +409,13 @@ alias lncli="lncli --network=testnet"
 . ~/.profile
 ```
 
+LND requires a lot of build space so set it up somewhere where it has enough space
+
+```shell
+mkdir -p ~/go-tmp
+export GOTMPDIR="$HOME/go-tmp"
+```
+
 ## Install LND
 
 [Install LND] on the machine, then setup its configuration
