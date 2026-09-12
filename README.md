@@ -224,17 +224,16 @@ This should echo `Congratulations`
 
 Using Bitcoin Core as a chain backend? [Download Bitcoin Core].
 
-Installation:
+Installation from source:
 
 ```
-sudo apt install git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev libminiupnpc-dev libzmq3-dev
-git clone -b v28.0 https://github.com/bitcoin/bitcoin.git
-cd bitcoin/
-./autogen.sh
-./configure CXXFLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768" --enable-cxx --with-zmq --without-gui --disable-shared --with-pic --disable-tests --disable-bench --enable-upnp-default --disable-wallet
+sudo apt install -y build-essential cmake python3 pkgconf git libboost-dev libevent-dev libzmq3-dev
+git clone --branch v31.1 --depth 1 https://github.com/bitcoin/bitcoin.git
+cd bitcoin
+cmake -B build -DENABLE_WALLET=OFF -DENABLE_IPC=OFF -DBUILD_GUI=OFF -DBUILD_TESTS=OFF -DBUILD_BENCH=OFF -DWITH_ZMQ=ON
 # This may take a while
-make -j "$(($(nproc)+1))"
-sudo make install
+cmake --build build -j$(nproc)
+sudo cmake --install build
 ```
 
 Setup directories on the Blockchain storage volume, and also create the
@@ -248,7 +247,7 @@ Download and use the [Bitcoin Core auth script] to generate credentials:
 
 ```shell
 wget https://raw.githubusercontent.com/bitcoin/bitcoin/master/share/rpcauth/rpcauth.py
-python ./rpcauth.py bitcoinrpc
+python3 ./rpcauth.py bitcoinrpc
 # This will output the authentication string to add to bitcoin.conf
 # Save the password, this will be used for LND configuration
 ```
@@ -291,21 +290,11 @@ maxmempool=100
 # Limit uploading to peers
 maxuploadtarget=1000
 
-# Turn off serving SPV nodes
-nopeerbloomfilters=1
-peerbloomfilters=0
-
 # Don't accept deprecated multi-sig style
 permitbaremultisig=0
 
 # Set the RPC auth to what was set above
 rpcauth=
-
-# Turn on the RPC server
-server=1
-
-# Reduce the log file size on restarts
-shrinkdebuglog=1
 
 # Set testnet if needed
 testnet=1
@@ -318,14 +307,9 @@ zmqpubrawblock=tcp://127.0.0.1:28332
 zmqpubrawtx=tcp://127.0.0.1:28333
 ```
 
-Using Tor? Add additional lines:
+Using Tor? Add additional line:
 
 ```ini
-# put under [main] section
-
-# Only use Tor
-onlynet=onion
-
 # Connect to Tor proxy
 proxy=127.0.0.1:9050
 ```
